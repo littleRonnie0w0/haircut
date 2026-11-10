@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1500" viewBox="0 0 1800 1500" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama de actividades del proceso de gestión de reserva</title>
+  <desc id="desc">Proceso con carriles para Cliente, Sistema Haircut Home Studio y Peluquero, desde la autenticación hasta la confirmación o rechazo de una solicitud.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto"><path d="M0,0 L11,4.5 L0,9 Z" fill="#34495e"/></marker>
+    <style>
+      .title{font:600 30px Arial,sans-serif;fill:#17202a}.subtitle{font:17px Arial,sans-serif;fill:#52606d}
+      .lane{fill:#fff;stroke:#7b8794;stroke-width:2}.laneAlt{fill:#fafbfc}.laneHead{fill:#eaf0f5;stroke:#7b8794;stroke-width:2}
+      .laneName{font:600 20px Arial,sans-serif;fill:#17202a;text-anchor:middle}.activity{fill:#fff;stroke:#34495e;stroke-width:2}.system{fill:#edf4fa}.staff{fill:#f5f0fa}
+      .activityText{font:600 16px Arial,sans-serif;fill:#17202a;text-anchor:middle}.small{font:14px Arial,sans-serif;fill:#34495e;text-anchor:middle}
+      .flow{stroke:#34495e;stroke-width:2;fill:none;marker-end:url(#arrow)}.decision{fill:#fff;stroke:#34495e;stroke-width:2}.guard{font:600 14px Arial,sans-serif;fill:#34495e}
+      .note{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}.start{fill:#263238}.endOuter{fill:#fff;stroke:#263238;stroke-width:3}.endInner{fill:#263238}
+    </style>
+  </defs>
+  <rect width="1800" height="1500" fill="white"/>
+  <text x="900" y="42" class="title" text-anchor="middle">Diagrama de actividades — Gestión de una reserva</text>
+  <text x="900" y="72" class="subtitle" text-anchor="middle">Vista de procesos · Haircut Home Studio</text>
+
+  <!-- Carriles -->
+  <rect x="60" y="110" width="500" height="1320" class="lane"/>
+  <rect x="560" y="110" width="680" height="1320" class="lane laneAlt"/>
+  <rect x="1240" y="110" width="500" height="1320" class="lane"/>
+  <rect x="60" y="110" width="500" height="62" class="laneHead"/><rect x="560" y="110" width="680" height="62" class="laneHead"/><rect x="1240" y="110" width="500" height="62" class="laneHead"/>
+  <text x="310" y="149" class="laneName">Cliente</text><text x="900" y="149" class="laneName">Sistema Haircut Home Studio</text><text x="1490" y="149" class="laneName">Peluquero</text>
+
+  <!-- Inicio y autenticación -->
+  <circle cx="310" cy="210" r="13" class="start"/>
+  <path d="M310 223 V255" class="flow"/>
+  <rect x="175" y="260" width="270" height="66" rx="18" class="activity"/><text x="310" y="287" class="activityText">Ingresar credenciales</text><text x="310" y="309" class="small">o registrar una cuenta</text>
+  <path d="M445 293 H715" class="flow"/>
+  <rect x="720" y="260" width="300" height="66" rx="18" class="activity system"/><text x="870" y="299" class="activityText">Validar autenticación</text>
+  <path d="M870 326 V348" class="flow"/>
+  <path d="M870 350 L930 395 L870 440 L810 395 Z" class="decision"/>
+  <text x="870" y="389" class="activityText">¿Datos</text><text x="870" y="409" class="activityText">válidos?</text>
+  <path d="M810 395 H500 V350 H310 V328" class="flow"/><text x="625" y="382" class="guard">[No: mostrar error y volver]</text>
+
+  <!-- Selección y disponibilidad -->
+  <path d="M870 440 V470 H445" class="flow"/><text x="885" y="463" class="guard">[Sí]</text>
+  <rect x="145" y="475" width="300" height="72" rx="18" class="activity"/><text x="295" y="505" class="activityText">Seleccionar servicio</text><text x="295" y="527" class="small">fecha y lugar de atención</text>
+  <path d="M445 511 H715" class="flow"/>
+  <rect x="720" y="475" width="330" height="72" rx="18" class="activity system"/><text x="885" y="505" class="activityText">Calcular horarios disponibles</text><text x="885" y="527" class="small">según duración y agenda</text>
+  <path d="M720 535 H450 V600" class="flow"/>
+  <rect x="145" y="605" width="305" height="66" rx="18" class="activity"/><text x="297" y="644" class="activityText">Elegir horario disponible</text>
+  <path d="M450 638 H715" class="flow"/>
+  <rect x="720" y="605" width="330" height="66" rx="18" class="activity system"/><text x="885" y="632" class="activityText">Revalidar disponibilidad</text><text x="885" y="653" class="small">dentro de una transacción</text>
+  <path d="M885 671 V693" class="flow"/>
+  <path d="M885 695 L950 740 L885 785 L820 740 Z" class="decision"/>
+  <text x="885" y="734" class="activityText">¿Horario</text><text x="885" y="754" class="activityText">libre?</text>
+  <path d="M820 740 H630 V638 H450" class="flow"/><text x="650" y="727" class="guard">[No: elegir otra hora]</text>
+
+  <!-- Simulación opcional -->
+  <path d="M885 785 V815" class="flow"/><text x="900" y="807" class="guard">[Sí]</text>
+  <path d="M885 820 L955 865 L885 910 L815 865 Z" class="decision"/>
+  <text x="885" y="858" class="activityText">¿Adjunta</text><text x="885" y="878" class="activityText">simulación IA?</text>
+  <path d="M955 865 H1080 V940 H1020" class="flow"/><text x="974" y="851" class="guard">[Sí]</text>
+  <rect x="720" y="925" width="300" height="72" rx="18" class="activity system"/><text x="870" y="954" class="activityText">Validar y copiar simulación</text><text x="870" y="976" class="small">propietario, estado y vigencia</text>
+  <path d="M815 865 H690 V1030 H720" class="flow"/><text x="728" y="851" class="guard">[No]</text>
+  <path d="M870 997 V1025" class="flow"/>
+
+  <!-- Registro y decisión del peluquero -->
+  <rect x="720" y="1030" width="330" height="72" rx="18" class="activity system"/><text x="885" y="1059" class="activityText">Registrar solicitud de reserva</text><text x="885" y="1081" class="small">estado: pendiente</text>
+  <path d="M1050 1066 H1330" class="flow"/>
+  <rect x="1335" y="1030" width="310" height="72" rx="18" class="activity staff"/><text x="1490" y="1059" class="activityText">Revisar solicitud pendiente</text><text x="1490" y="1081" class="small">servicio, fecha, lugar y referencia</text>
+  <path d="M1490 1102 V1128" class="flow"/>
+  <path d="M1490 1130 L1560 1175 L1490 1220 L1420 1175 Z" class="decision"/>
+  <text x="1490" y="1169" class="activityText">¿Aceptar</text><text x="1490" y="1189" class="activityText">solicitud?</text>
+
+  <path d="M1420 1175 H1090 V1240" class="flow"/><text x="1300" y="1162" class="guard">[Sí: confirmada]</text>
+  <path d="M1560 1175 H1660 V1240 H1090" class="flow"/><text x="1580" y="1162" class="guard">[No: rechazada]</text>
+  <rect x="780" y="1245" width="310" height="72" rx="18" class="activity system"/><text x="935" y="1274" class="activityText">Actualizar estado y enviar correo</text><text x="935" y="1296" class="small">al cliente</text>
+  <path d="M780 1281 H445" class="flow"/>
+  <rect x="145" y="1245" width="300" height="72" rx="18" class="activity"/><text x="295" y="1274" class="activityText">Consultar resultado</text><text x="295" y="1296" class="small">confirmada o rechazada</text>
+  <path d="M295 1317 V1350" class="flow"/>
+  <circle cx="295" cy="1372" r="19" class="endOuter"/><circle cx="295" cy="1372" r="11" class="endInner"/>
+
+  <text x="900" y="1462" class="note">La generación con Gemini es independiente; la reserva guarda una copia privada de la imagen seleccionada.</text>
+</svg>

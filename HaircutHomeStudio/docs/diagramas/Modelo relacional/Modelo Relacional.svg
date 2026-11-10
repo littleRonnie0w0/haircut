@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1120" viewBox="0 0 1500 1120" role="img" aria-labelledby="title desc">
+  <title id="title">Modelo relacional de Haircut Home Studio</title>
+  <desc id="desc">Las simulaciones de inteligencia artificial se relacionan solo con usuarios. Las reservas se relacionan con usuarios y servicios, y guardan una copia privada opcional de la imagen simulada.</desc>
+  <defs>
+    <style>
+      .title{font:700 32px Arial,sans-serif;fill:#1b2935}.sub{font:18px Arial,sans-serif;fill:#52616b}
+      .box{fill:#fff;stroke:#4d6070;stroke-width:2}.head{fill:#eaf0f5;stroke:#4d6070;stroke-width:2}.ai{fill:#ede9fb}.note{fill:#f7f9fb;stroke:#cbd5df}
+      .name{font:700 21px Arial,sans-serif;fill:#192734}.field{font:17px Consolas,'Courier New',monospace;fill:#263846}
+      .line{fill:none;stroke:#536879;stroke-width:2.4}.edge{font:700 16px Arial,sans-serif;fill:#243748}.hint{font:16px Arial,sans-serif;fill:#405664}
+    </style>
+  </defs>
+  <rect width="1500" height="1120" fill="#fff"/>
+  <text x="750" y="50" class="title" text-anchor="middle">Modelo relacional — Haircut Home Studio</text>
+  <text x="750" y="82" class="sub" text-anchor="middle">Relaciones de negocio después de simplificar la simulación de IA</text>
+
+  <g><rect x="75" y="175" width="330" height="255" class="box"/><rect x="75" y="175" width="330" height="53" class="head"/><text x="95" y="209" class="name">usuarios</text>
+    <text x="95" y="263" class="field">PK id</text><text x="95" y="296" class="field">nombre</text><text x="95" y="329" class="field">email</text><text x="95" y="362" class="field">rol</text><text x="95" y="395" class="field">...</text></g>
+
+  <g><rect x="545" y="175" width="390" height="330" class="box"/><rect x="545" y="175" width="390" height="53" class="head"/><text x="565" y="209" class="name">reservas</text>
+    <text x="565" y="263" class="field">PK id</text><text x="565" y="296" class="field">FK usuario_id</text><text x="565" y="329" class="field">FK servicio_id</text><text x="565" y="362" class="field">fecha, hora, estado</text><text x="565" y="395" class="field">foto</text><text x="565" y="428" class="field">imagen_simulada (opcional)</text><text x="565" y="461" class="field">lugar, creado_en</text></g>
+
+  <g><rect x="1075" y="175" width="350" height="265" class="box"/><rect x="1075" y="175" width="350" height="53" class="head"/><text x="1095" y="209" class="name">servicios</text>
+    <text x="1095" y="263" class="field">PK id</text><text x="1095" y="296" class="field">FK categoria_id</text><text x="1095" y="329" class="field">nombre, descripción</text><text x="1095" y="362" class="field">duración, precio</text><text x="1095" y="395" class="field">activo</text></g>
+
+  <g><rect x="75" y="580" width="410" height="315" class="box"/><rect x="75" y="580" width="410" height="53" class="head ai"/><text x="95" y="614" class="name">ai_generations</text>
+    <text x="95" y="668" class="field">PK id</text><text x="95" y="701" class="field">FK usuario_id</text><text x="95" y="734" class="field">style_label, style_category</text><text x="95" y="767" class="field">preset, status</text><text x="95" y="800" class="field">input_path, output_path</text><text x="95" y="833" class="field">completed_at, expires_at</text><text x="95" y="866" class="field">...</text></g>
+
+  <g><rect x="1075" y="555" width="350" height="160" class="box"/><rect x="1075" y="555" width="350" height="53" class="head"/><text x="1095" y="589" class="name">categorias</text>
+    <text x="1095" y="644" class="field">PK id</text><text x="1095" y="677" class="field">nombre, slug, imagen</text></g>
+  <g><rect x="1075" y="855" width="350" height="160" class="box"/><rect x="1075" y="855" width="350" height="53" class="head"/><text x="1095" y="889" class="name">productos</text>
+    <text x="1095" y="944" class="field">PK id · FK categoria_id</text><text x="1095" y="977" class="field">nombre, precio, activo</text></g>
+
+  <path d="M405 300 H545" class="line"/><text x="420" y="288" class="edge">1</text><text x="505" y="288" class="edge">0..*</text>
+  <path d="M935 310 H1075" class="line"/><text x="950" y="298" class="edge">0..*</text><text x="1050" y="298" class="edge">1</text>
+  <path d="M240 430 V580" class="line"/><text x="252" y="456" class="edge">1</text><text x="252" y="566" class="edge">0..*</text>
+  <path d="M1250 440 V555" class="line"/><text x="1260" y="467" class="edge">0..*</text><text x="1260" y="543" class="edge">1</text>
+  <path d="M1250 715 V855" class="line"/><text x="1260" y="742" class="edge">1</text><text x="1260" y="843" class="edge">0..*</text>
+
+  <rect x="555" y="655" width="425" height="185" rx="8" class="note"/>
+  <text x="580" y="696" class="name">Imagen adjunta a la reserva</text>
+  <text x="580" y="733" class="hint">Al reservar se copia el resultado elegido.</text>
+  <text x="580" y="764" class="hint">La copia privada pertenece a la reserva.</text>
+  <text x="580" y="795" class="hint">No se guarda una FK hacia ai_generations.</text>
+
+  <text x="750" y="1075" class="sub" text-anchor="middle">Las tablas técnicas de Laravel y la configuración de agenda se documentan por separado.</text>
+</svg>

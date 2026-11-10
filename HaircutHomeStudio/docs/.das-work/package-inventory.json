@@ -1,0 +1,154 @@
+[
+  {
+    "Path": "word/header1.xml",
+    "Size": 3406
+  },
+  {
+    "Path": "word/header2.xml",
+    "Size": 7995
+  },
+  {
+    "Path": "word/_rels/header2.xml.rels",
+    "Size": 289
+  },
+  {
+    "Path": "word/footer1.xml",
+    "Size": 7613
+  },
+  {
+    "Path": "word/_rels/footer1.xml.rels",
+    "Size": 289
+  },
+  {
+    "Path": "word/numbering.xml",
+    "Size": 15907
+  },
+  {
+    "Path": "word/settings.xml",
+    "Size": 2119
+  },
+  {
+    "Path": "word/fontTable.xml",
+    "Size": 2092
+  },
+  {
+    "Path": "word/_rels/fontTable.xml.rels",
+    "Size": 449
+  },
+  {
+    "Path": "word/styles.xml",
+    "Size": 32350
+  },
+  {
+    "Path": "customXML/itemProps1.xml",
+    "Size": 404
+  },
+  {
+    "Path": "customXML/item1.xml",
+    "Size": 1117
+  },
+  {
+    "Path": "customXML/_rels/item1.xml.rels",
+    "Size": 295
+  },
+  {
+    "Path": "docProps/core.xml",
+    "Size": 500
+  },
+  {
+    "Path": "word/document.xml",
+    "Size": 346664
+  },
+  {
+    "Path": "word/_rels/document.xml.rels",
+    "Size": 4608
+  },
+  {
+    "Path": "_rels/.rels",
+    "Size": 443
+  },
+  {
+    "Path": "word/theme/theme1.xml",
+    "Size": 6797
+  },
+  {
+    "Path": "word/media/image3.png",
+    "Size": 98863
+  },
+  {
+    "Path": "word/media/image1.png",
+    "Size": 65381
+  },
+  {
+    "Path": "word/media/image15.png",
+    "Size": 7503
+  },
+  {
+    "Path": "word/media/image4.png",
+    "Size": 69642
+  },
+  {
+    "Path": "word/media/image6.png",
+    "Size": 31559
+  },
+  {
+    "Path": "word/media/image8.png",
+    "Size": 53749
+  },
+  {
+    "Path": "word/media/image13.png",
+    "Size": 63199
+  },
+  {
+    "Path": "word/media/image11.png",
+    "Size": 44273
+  },
+  {
+    "Path": "word/fonts/NotoSansSymbols-regular.ttf",
+    "Size": 183620
+  },
+  {
+    "Path": "word/fonts/NotoSansSymbols-bold.ttf",
+    "Size": 183344
+  },
+  {
+    "Path": "word/media/image2.png",
+    "Size": 64535
+  },
+  {
+    "Path": "word/media/image17.png",
+    "Size": 70
+  },
+  {
+    "Path": "word/media/image5.png",
+    "Size": 67115
+  },
+  {
+    "Path": "word/media/image16.png",
+    "Size": 54689
+  },
+  {
+    "Path": "word/media/image9.png",
+    "Size": 61684
+  },
+  {
+    "Path": "word/media/image14.png",
+    "Size": 106775
+  },
+  {
+    "Path": "word/media/image10.png",
+    "Size": 108527
+  },
+  {
+    "Path": "word/media/image12.png",
+    "Size": 120652
+  },
+  {
+    "Path": "word/media/image7.png",
+    "Size": 38505
+  },
+  {
+    "Path": "[Content_Types].xml",
+    "Size": 1885
+  }
+]

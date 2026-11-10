@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1080" viewBox="0 0 1800 1080" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama UML de componentes de Haircut Home Studio</title>
+  <desc id="desc">Componentes distribuidos en tres filas y conectados mediante interfaces proporcionadas y requeridas.</desc>
+  <defs>
+    <style>
+      .title{font:600 30px Arial,sans-serif;fill:#17202a}.subtitle{font:17px Arial,sans-serif;fill:#52606d}
+      .boundary{fill:#fbfcfd;stroke:#a3adb8;stroke-width:1.7}.component{fill:#fff;stroke:#34495e;stroke-width:2.2}.external{fill:#fff8ed}.tab{fill:#fff;stroke:#34495e;stroke-width:1.8}
+      .name{font:600 18px Arial,sans-serif;fill:#17202a;text-anchor:middle}.kind{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}
+      .connector{stroke:#34495e;stroke-width:2;fill:none}.provided{fill:#fff;stroke:#34495e;stroke-width:2}.required{fill:none;stroke:#34495e;stroke-width:2}
+      .label{font:600 14px Arial,sans-serif;fill:#34495e;text-anchor:middle}.legend{font:14px Arial,sans-serif;fill:#52606d}.note{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}
+    </style>
+  </defs>
+  <rect width="1800" height="1080" fill="white"/>
+  <text x="900" y="42" class="title" text-anchor="middle">Diagrama de componentes — Vista de despliegue</text>
+  <text x="900" y="72" class="subtitle" text-anchor="middle">Haircut Home Studio</text>
+  <rect x="35" y="105" width="1730" height="850" rx="3" class="boundary"/>
+  <text x="70" y="137" class="kind" text-anchor="start">Sistema Haircut Home Studio</text>
+
+  <!-- Fila 1 -->
+  <g><rect x="80" y="180" width="300" height="100" class="component"/><rect x="65" y="205" width="38" height="20" class="tab"/><rect x="65" y="240" width="38" height="20" class="tab"/><text x="230" y="222" class="name">Autenticación y roles</text><text x="230" y="251" class="kind">«componente»</text></g>
+  <g><rect x="560" y="180" width="300" height="100" class="component"/><rect x="545" y="205" width="38" height="20" class="tab"/><rect x="545" y="240" width="38" height="20" class="tab"/><text x="710" y="222" class="name">Interfaz web</text><text x="710" y="251" class="kind">«componente»</text></g>
+  <g><rect x="1040" y="180" width="300" height="100" class="component"/><rect x="1025" y="205" width="38" height="20" class="tab"/><rect x="1025" y="240" width="38" height="20" class="tab"/><text x="1190" y="222" class="name">Simulador de IA</text><text x="1190" y="251" class="kind">«componente»</text></g>
+  <g><rect x="1500" y="180" width="230" height="100" class="component external"/><rect x="1485" y="205" width="38" height="20" class="tab"/><rect x="1485" y="240" width="38" height="20" class="tab"/><text x="1615" y="222" class="name">API de Gemini</text><text x="1615" y="251" class="kind">«servicio externo»</text></g>
+
+  <!-- Fila 2 -->
+  <g><rect x="80" y="465" width="300" height="100" class="component"/><rect x="65" y="490" width="38" height="20" class="tab"/><rect x="65" y="525" width="38" height="20" class="tab"/><text x="230" y="507" class="name">Gestión de horarios</text><text x="230" y="536" class="kind">«componente»</text></g>
+  <g><rect x="560" y="465" width="300" height="100" class="component"/><rect x="545" y="490" width="38" height="20" class="tab"/><rect x="545" y="525" width="38" height="20" class="tab"/><text x="710" y="507" class="name">Gestión de reservas</text><text x="710" y="536" class="kind">«componente»</text></g>
+  <g><rect x="1040" y="465" width="300" height="100" class="component"/><rect x="1025" y="490" width="38" height="20" class="tab"/><rect x="1025" y="525" width="38" height="20" class="tab"/><text x="1190" y="507" class="name">Envío de notificaciones</text><text x="1190" y="536" class="kind">«componente»</text></g>
+  <g><rect x="1500" y="465" width="230" height="100" class="component external"/><rect x="1485" y="490" width="38" height="20" class="tab"/><rect x="1485" y="525" width="38" height="20" class="tab"/><text x="1615" y="507" class="name">Servidor de correo</text><text x="1615" y="536" class="kind">«servicio externo»</text></g>
+
+  <!-- Fila 3 -->
+  <g><rect x="80" y="750" width="300" height="100" class="component external"/><rect x="65" y="775" width="38" height="20" class="tab"/><rect x="65" y="810" width="38" height="20" class="tab"/><text x="230" y="792" class="name">MySQL / MariaDB</text><text x="230" y="821" class="kind">«base de datos»</text></g>
+  <g><rect x="560" y="750" width="300" height="100" class="component"/><rect x="545" y="775" width="38" height="20" class="tab"/><rect x="545" y="810" width="38" height="20" class="tab"/><text x="710" y="792" class="name">Acceso a datos</text><text x="710" y="821" class="kind">«componente»</text></g>
+  <g><rect x="1040" y="750" width="300" height="100" class="component"/><rect x="1025" y="775" width="38" height="20" class="tab"/><rect x="1025" y="810" width="38" height="20" class="tab"/><text x="1190" y="792" class="name">Gestión de archivos</text><text x="1190" y="821" class="kind">«componente»</text></g>
+
+  <!-- Conexión autenticación - interfaz -->
+  <path d="M380 230H548" class="connector"/><circle cx="455" cy="230" r="12" class="provided"/><path d="M479 218Q465 230 479 242" class="required"/><text x="464" y="205" class="label">autenticación</text>
+  <!-- Interfaz - simulador -->
+  <path d="M860 230H1028" class="connector"/><circle cx="935" cy="230" r="12" class="provided"/><path d="M959 218Q945 230 959 242" class="required"/><text x="944" y="205" class="label">simulación</text>
+  <!-- Simulador - Gemini -->
+  <path d="M1340 230H1488" class="connector"/><circle cx="1405" cy="230" r="12" class="provided"/><path d="M1429 218Q1415 230 1429 242" class="required"/><text x="1414" y="205" class="label">generar imagen</text>
+
+  <!-- Disponibilidad - reservas -->
+  <path d="M380 515H548" class="connector"/><circle cx="455" cy="515" r="12" class="provided"/><path d="M479 503Q465 515 479 527" class="required"/><text x="464" y="490" class="label">consultar horarios</text>
+  <!-- Reservas - notificaciones -->
+  <path d="M860 515H1028" class="connector"/><circle cx="935" cy="515" r="12" class="provided"/><path d="M959 503Q945 515 959 527" class="required"/><text x="944" y="490" class="label">notificar estado</text>
+  <!-- Notificaciones - SMTP -->
+  <path d="M1340 515H1488" class="connector"/><circle cx="1405" cy="515" r="12" class="provided"/><path d="M1429 503Q1415 515 1429 527" class="required"/><text x="1414" y="490" class="label">enviar correo</text>
+
+  <!-- Base de datos - persistencia -->
+  <path d="M380 800H548" class="connector"/><circle cx="455" cy="800" r="12" class="provided"/><path d="M479 788Q465 800 479 812" class="required"/><text x="464" y="775" class="label">datos</text>
+
+  <!-- Relaciones verticales -->
+  <path d="M710 280V453" class="connector"/><circle cx="710" cy="355" r="12" class="provided"/><path d="M698 379Q710 365 722 379" class="required"/><text x="785" y="362" class="label">operaciones de reserva</text>
+  <path d="M710 565V738" class="connector"/><circle cx="710" cy="640" r="12" class="provided"/><path d="M698 664Q710 650 722 664" class="required"/><text x="782" y="647" class="label">guardar y consultar</text>
+  <path d="M1190 280V320H1390V700H1190V738" class="connector"/><circle cx="1390" cy="630" r="12" class="provided"/><path d="M1378 654Q1390 640 1402 654" class="required"/><text x="1460" y="637" class="label">archivos privados</text>
+
+  <!-- Leyenda -->
+  <circle cx="610" cy="990" r="11" class="provided"/><text x="635" y="996" class="legend">Interfaz proporcionada</text>
+  <path d="M890 978Q875 990 890 1002" class="required"/><text x="915" y="996" class="legend">Interfaz requerida</text>
+  <text x="900" y="1040" class="note">Las conexiones se mantienen horizontales o verticales para facilitar la lectura.</text>
+</svg>

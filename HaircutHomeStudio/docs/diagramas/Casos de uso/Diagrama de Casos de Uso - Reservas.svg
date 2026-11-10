@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1550" height="1050" viewBox="0 0 1550 1050" role="img" aria-labelledby="title desc">
+<title id="title">Caso de uso: reservas</title><desc id="desc">Solicitud, consulta y cancelación de reservas por el cliente.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#52606d"/></marker><style>.t{font:600 28px Arial;fill:#17202a}.s{font:16px Arial;fill:#52606d}.b{fill:#fbfcfd;stroke:#34495e;stroke-width:2}.u{fill:#fff;stroke:#34495e;stroke-width:2}.main{fill:#edf5fb}.opt{fill:#f4f1fa}.n{font:600 16px Arial;fill:#17202a;text-anchor:middle}.actor{stroke:#34495e;stroke-width:2;fill:none}.al{font:600 16px Arial;fill:#17202a;text-anchor:middle}.x{stroke:#34495e;stroke-width:2;fill:none}.d{stroke:#52606d;stroke-width:1.7;stroke-dasharray:7 6;fill:none;marker-end:url(#a)}.t2{font:italic 14px Arial;fill:#52606d;text-anchor:middle}</style></defs>
+<rect width="1550" height="1050" fill="white"/><text x="775" y="42" class="t" text-anchor="middle">Casos de uso — Gestión de reservas</text><text x="775" y="70" class="s" text-anchor="middle">Haircut Home Studio</text>
+<rect x="300" y="105" width="1160" height="870" class="b"/><text x="880" y="138" class="n">Sistema Haircut Home Studio</text>
+<circle cx="145" cy="430" r="20" class="actor"/><path d="M145 450V510M110 475H180M145 510L115 550M145 510L175 550" class="actor"/><text x="145" y="580" class="al">Cliente</text>
+<ellipse cx="580" cy="330" rx="160" ry="50" class="u main"/><text x="580" y="336" class="n">Solicitar reserva</text>
+<ellipse cx="970" cy="205" rx="145" ry="45" class="u"/><text x="970" y="211" class="n">Seleccionar servicio</text>
+<ellipse cx="970" cy="330" rx="145" ry="45" class="u"/><text x="970" y="326" class="n">Consultar disponibilidad</text><text x="970" y="346" class="n">de horarios</text>
+<ellipse cx="970" cy="455" rx="145" ry="45" class="u"/><text x="970" y="461" class="n">Elegir fecha y hora</text>
+<ellipse cx="970" cy="580" rx="145" ry="45" class="u"/><text x="970" y="586" class="n">Elegir lugar</text>
+<ellipse cx="580" cy="555" rx="160" ry="48" class="u opt"/><text x="580" y="561" class="n">Adjuntar foto de referencia</text>
+<ellipse cx="580" cy="680" rx="160" ry="48" class="u opt"/><text x="580" y="676" class="n">Adjuntar imagen</text><text x="580" y="696" class="n">simulada existente</text>
+<ellipse cx="580" cy="825" rx="160" ry="48" class="u main"/><text x="580" y="831" class="n">Consultar mis reservas</text>
+<ellipse cx="1000" cy="825" rx="145" ry="45" class="u opt"/><text x="1000" y="831" class="n">Cancelar reserva</text>
+<path d="M180 455L420 350" class="x"/><path d="M180 500L420 805" class="x"/>
+<path d="M730 310L825 225" class="d"/><text x="775" y="247" class="t2">«include»</text><path d="M740 330H815" class="d"/><text x="778" y="312" class="t2">«include»</text><path d="M730 350L825 435" class="d"/><text x="775" y="415" class="t2">«include»</text><path d="M700 375L850 555" class="d"/><text x="760" y="495" class="t2">«include»</text>
+<path d="M580 507V385" class="d"/><text x="635" y="455" class="t2">«extend»</text><path d="M580 632V385" class="d"/><text x="635" y="585" class="t2">«extend»</text><path d="M855 825H740" class="d"/><text x="800" y="805" class="t2">«extend»</text>
+</svg>

@@ -1,0 +1,80 @@
+# Asignamos el nombre del contenedor de los contenedores.
+name: haircut_home_studio
+
+services:
+  hhs-app:
+    build:
+      context: ./HaircutHomeStudio
+      dockerfile: Dockerfile
+    container_name: haircut_app
+    env_file:
+      - ./HaircutHomeStudio/.env
+    depends_on:
+      hhs-db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      TZ: America/Santiago
+      DB_CONNECTION: mysql
+      DB_HOST: hhs-db
+      DB_PORT: 3306
+      DB_DATABASE: haircut_studio_laravel
+      DB_USERNAME: user
+      DB_PASSWORD: password
+      CACHE_STORE: redis
+      QUEUE_CONNECTION: redis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "8000:80"
+    volumes:
+      - ./HaircutHomeStudio/app:/app/app
+      - ./HaircutHomeStudio/bootstrap:/app/bootstrap
+      - ./HaircutHomeStudio/resources:/app/resources
+      - ./HaircutHomeStudio/routes:/app/routes
+      - ./HaircutHomeStudio/config:/app/config
+      - ./HaircutHomeStudio/database:/app/database
+      - ./HaircutHomeStudio/storage:/app/storage
+    networks:
+      - hhs-network
+
+  hhs-db:
+    image: mysql:8.2
+    command: --log-bin-trust-function-creators=1
+    container_name: hhs_db
+    environment:
+      TZ: America/Santiago
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: haircut_studio_laravel
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - hhs-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: hhs_redis
+    ports:
+      - "16379:6379"
+    networks:
+      - hhs-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      timeout: 3s
+      retries: 5
+
+volumes:
+  db_data:
+
+networks:
+  hhs-network:
+    driver: bridge

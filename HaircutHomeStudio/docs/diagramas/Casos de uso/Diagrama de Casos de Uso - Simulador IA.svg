@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1550" height="1050" viewBox="0 0 1550 1050" role="img" aria-labelledby="title desc">
+<title id="title">Caso de uso: simulador de IA</title><desc id="desc">Generación y gestión de simulaciones de corte o color mediante Gemini.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#52606d"/></marker><style>.t{font:600 28px Arial;fill:#17202a}.s{font:16px Arial;fill:#52606d}.b{fill:#fbfcfd;stroke:#34495e;stroke-width:2}.u{fill:#fff;stroke:#34495e;stroke-width:2}.main{fill:#edf5fb}.opt{fill:#f4f1fa}.n{font:600 16px Arial;fill:#17202a;text-anchor:middle}.actor{stroke:#34495e;stroke-width:2;fill:none}.al{font:600 16px Arial;fill:#17202a;text-anchor:middle}.x{stroke:#34495e;stroke-width:2;fill:none}.d{stroke:#52606d;stroke-width:1.7;stroke-dasharray:7 6;fill:none;marker-end:url(#a)}.t2{font:italic 14px Arial;fill:#52606d;text-anchor:middle}</style></defs>
+<rect width="1550" height="1050" fill="white"/><text x="775" y="42" class="t" text-anchor="middle">Casos de uso — Simulador de IA</text><text x="775" y="70" class="s" text-anchor="middle">Haircut Home Studio</text>
+<rect x="285" y="105" width="980" height="870" class="b"/><text x="775" y="138" class="n">Sistema Haircut Home Studio</text>
+<circle cx="135" cy="420" r="20" class="actor"/><path d="M135 440V500M100 465H170M135 500L105 540M135 500L165 540" class="actor"/><text x="135" y="570" class="al">Cliente</text>
+<circle cx="1400" cy="530" r="20" class="actor"/><path d="M1400 550V610M1365 575H1435M1400 610L1370 650M1400 610L1430 650" class="actor"/><text x="1400" y="680" class="al">Google Gemini API</text>
+<ellipse cx="560" cy="300" rx="165" ry="50" class="u main"/><text x="560" y="306" class="n">Generar simulación</text>
+<ellipse cx="940" cy="195" rx="145" ry="44" class="u"/><text x="940" y="201" class="n">Seleccionar servicio</text>
+<ellipse cx="940" cy="315" rx="145" ry="44" class="u"/><text x="940" y="321" class="n">Subir fotografía</text>
+<ellipse cx="940" cy="435" rx="145" ry="44" class="u"/><text x="940" y="441" class="n">Aceptar consentimiento</text>
+<ellipse cx="940" cy="555" rx="145" ry="44" class="u"/><text x="940" y="561" class="n">Validar cuota de uso</text>
+<ellipse cx="940" cy="675" rx="145" ry="44" class="u"/><text x="940" y="681" class="n">Procesar imagen</text>
+<ellipse cx="560" cy="555" rx="165" ry="48" class="u main"/><text x="560" y="561" class="n">Consultar historial</text>
+<ellipse cx="560" cy="720" rx="165" ry="48" class="u opt"/><text x="560" y="716" class="n">Usar imagen</text><text x="560" y="736" class="n">al reservar</text>
+<ellipse cx="940" cy="850" rx="145" ry="44" class="u opt"/><text x="940" y="856" class="n">Eliminar imágenes</text>
+<path d="M170 445L395 320" class="x"/><path d="M170 490L395 545" class="x"/><path d="M1085 675L1365 575" class="x"/>
+<path d="M710 280L805 215" class="d"/><text x="755" y="225" class="t2">«include»</text><path d="M725 300H795" class="d"/><text x="760" y="282" class="t2">«include»</text><path d="M700 330L815 415" class="d"/><text x="755" y="395" class="t2">«include»</text><path d="M665 345L835 530" class="d"/><text x="755" y="485" class="t2">«include»</text><path d="M650 348L850 650" class="d"/><text x="730" y="545" class="t2">«include»</text>
+<path d="M560 672V603" class="d"/><text x="615" y="646" class="t2">«extend»</text><path d="M850 820L690 590" class="d"/><text x="785" y="700" class="t2">«extend»</text>
+</svg>

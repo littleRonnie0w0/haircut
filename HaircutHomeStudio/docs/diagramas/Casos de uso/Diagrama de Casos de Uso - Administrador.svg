@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="950" viewBox="0 0 1500 950" role="img" aria-labelledby="title desc">
+<title id="title">Casos de uso del administrador</title><desc id="desc">Administración de categorías, servicios y productos.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#52606d"/></marker><style>.t{font:600 28px Arial;fill:#17202a}.s{font:16px Arial;fill:#52606d}.b{fill:#fbfcfd;stroke:#34495e;stroke-width:2}.u{fill:#fff;stroke:#34495e;stroke-width:2}.main{fill:#edf5fb}.n{font:600 16px Arial;fill:#17202a;text-anchor:middle}.actor{stroke:#34495e;stroke-width:2;fill:none}.al{font:600 16px Arial;fill:#17202a;text-anchor:middle}.x{stroke:#34495e;stroke-width:2;fill:none}.d{stroke:#52606d;stroke-width:1.7;stroke-dasharray:7 6;fill:none;marker-end:url(#a)}.t2{font:italic 14px Arial;fill:#52606d;text-anchor:middle}</style></defs>
+<rect width="1500" height="950" fill="white"/><text x="750" y="42" class="t" text-anchor="middle">Casos de uso — Administración del catálogo</text><text x="750" y="70" class="s" text-anchor="middle">Haircut Home Studio</text>
+<rect x="300" y="105" width="1100" height="780" class="b"/><text x="850" y="138" class="n">Sistema Haircut Home Studio</text>
+<circle cx="140" cy="435" r="20" class="actor"/><path d="M140 455V515M105 480H175M140 515L110 555M140 515L170 555" class="actor"/><text x="140" y="585" class="al">Administrador</text>
+<ellipse cx="560" cy="280" rx="175" ry="50" class="u main"/><text x="560" y="286" class="n">Gestionar categorías</text>
+<ellipse cx="560" cy="500" rx="175" ry="50" class="u main"/><text x="560" y="506" class="n">Gestionar servicios</text>
+<ellipse cx="560" cy="720" rx="175" ry="50" class="u main"/><text x="560" y="726" class="n">Gestionar productos</text>
+<ellipse cx="1010" cy="205" rx="145" ry="44" class="u"/><text x="1010" y="211" class="n">Crear categoría</text>
+<ellipse cx="1010" cy="330" rx="145" ry="44" class="u"/><text x="1010" y="336" class="n">Eliminar categoría</text>
+<ellipse cx="1010" cy="440" rx="145" ry="44" class="u"/><text x="1010" y="446" class="n">Crear servicio</text>
+<ellipse cx="1010" cy="550" rx="145" ry="44" class="u"/><text x="1010" y="556" class="n">Modificar servicio</text>
+<ellipse cx="1010" cy="660" rx="145" ry="44" class="u"/><text x="1010" y="666" class="n">Eliminar servicio</text>
+<ellipse cx="1010" cy="790" rx="145" ry="44" class="u"/><text x="1010" y="796" class="n">Mantener producto</text>
+<path d="M175 450L385 300" class="x"/><path d="M175 480L385 500" class="x"/><path d="M175 510L385 700" class="x"/>
+<path d="M735 265L865 220" class="d"/><text x="800" y="220" class="t2">«include»</text><path d="M735 295L865 320" class="d"/><text x="800" y="330" class="t2">«include»</text>
+<path d="M735 480L865 450" class="d"/><text x="800" y="450" class="t2">«include»</text><path d="M735 505L865 540" class="d"/><text x="800" y="550" class="t2">«include»</text><path d="M720 530L875 645" class="d"/><text x="795" y="620" class="t2">«include»</text>
+<path d="M735 735L865 780" class="d"/><text x="800" y="780" class="t2">«include»</text>
+</svg>

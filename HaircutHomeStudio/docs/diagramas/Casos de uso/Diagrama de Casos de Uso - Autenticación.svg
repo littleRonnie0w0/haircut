@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="850" viewBox="0 0 1400 850" role="img" aria-labelledby="title desc">
+<title id="title">Caso de uso: autenticación</title><desc id="desc">Registro, inicio y cierre de sesión en Haircut Home Studio.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#52606d"/></marker><style>.t{font:600 28px Arial;fill:#17202a}.s{font:16px Arial;fill:#52606d}.b{fill:#fbfcfd;stroke:#34495e;stroke-width:2}.u{fill:#fff;stroke:#34495e;stroke-width:2}.n{font:600 17px Arial;fill:#17202a;text-anchor:middle}.actor{stroke:#34495e;stroke-width:2;fill:none}.al{font:600 16px Arial;fill:#17202a;text-anchor:middle}.x{stroke:#34495e;stroke-width:2;fill:none}.d{stroke:#52606d;stroke-width:1.7;stroke-dasharray:7 6;fill:none;marker-end:url(#a)}.t2{font:italic 14px Arial;fill:#52606d;text-anchor:middle}</style></defs>
+<rect width="1400" height="850" fill="white"/><text x="700" y="42" class="t" text-anchor="middle">Casos de uso — Autenticación</text><text x="700" y="70" class="s" text-anchor="middle">Haircut Home Studio</text>
+<rect x="300" y="110" width="850" height="650" class="b"/><text x="725" y="142" class="n">Sistema Haircut Home Studio</text>
+<circle cx="145" cy="295" r="20" class="actor"/><path d="M145 315V375M110 340H180M145 375L115 415M145 375L175 415" class="actor"/><text x="145" y="445" class="al">Visitante</text>
+<circle cx="1250" cy="505" r="20" class="actor"/><path d="M1250 525V585M1215 550H1285M1250 585L1220 625M1250 585L1280 625" class="actor"/><text x="1250" y="655" class="al">Usuario autenticado</text>
+<ellipse cx="560" cy="270" rx="150" ry="48" class="u"/><text x="560" y="276" class="n">Registrarse</text>
+<ellipse cx="560" cy="470" rx="150" ry="48" class="u"/><text x="560" y="476" class="n">Iniciar sesión</text>
+<ellipse cx="900" cy="270" rx="150" ry="48" class="u"/><text x="900" y="276" class="n">Validar datos</text>
+<ellipse cx="900" cy="470" rx="150" ry="48" class="u"/><text x="900" y="476" class="n">Validar credenciales</text>
+<ellipse cx="900" cy="650" rx="150" ry="48" class="u"/><text x="900" y="656" class="n">Cerrar sesión</text>
+<path d="M180 320L420 280" class="x"/><path d="M180 355L420 450" class="x"/><path d="M1100 650L1215 570" class="x"/>
+<path d="M710 270H740" class="d"/><text x="725" y="250" class="t2">«include»</text><path d="M710 470H740" class="d"/><text x="725" y="450" class="t2">«include»</text>
+</svg>

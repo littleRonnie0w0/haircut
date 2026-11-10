@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1000" viewBox="0 0 1500 1000" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama de comunicación: crear solicitud de reserva</title>
+  <desc id="desc">Comunicación lógica entre el cliente, el sistema de reservas, la gestión de disponibilidad, la simulación de IA opcional y el registro de reservas.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto"><path d="M0,0 L11,4.5 L0,9 Z" fill="#263238"/></marker>
+    <style>
+      .title{font:600 29px Arial,sans-serif;fill:#17202a}.subtitle{font:16px Arial,sans-serif;fill:#52606d}.box{fill:#f6f8fa;stroke:#34495e;stroke-width:2.2}.entity{fill:#eef7f2;stroke:#39735b;stroke-width:2.2}.name{font:600 20px Arial,sans-serif;fill:#17202a;text-anchor:middle}.type{font:italic 15px Arial,sans-serif;fill:#52606d;text-anchor:middle}.connection{stroke:#9aa5b1;stroke-width:2;fill:none}.arrow{stroke:#263238;stroke-width:2;fill:none;marker-end:url(#arrow)}.message{font:16px Arial,sans-serif;fill:#17202a;text-anchor:middle}.messageStrong{font:600 16px Arial,sans-serif;fill:#17202a;text-anchor:middle}.actor{stroke:#34495e;stroke-width:2.3;fill:none}.note{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}.labelBg{fill:white;opacity:.96}
+    </style>
+  </defs>
+  <rect width="1500" height="1000" fill="white"/>
+  <text x="750" y="45" class="title" text-anchor="middle">Diagrama de comunicación — Crear solicitud de reserva</text>
+  <text x="750" y="74" class="subtitle" text-anchor="middle">Vista lógica · Haircut Home Studio</text>
+
+  <circle cx="145" cy="420" r="22" class="actor"/><path d="M145 442 V515 M105 467 H185 M145 515 L108 560 M145 515 L182 560" class="actor"/>
+  <text x="145" y="592" class="name">Cliente</text><text x="145" y="615" class="type">«actor»</text>
+  <rect x="510" y="405" width="310" height="115" rx="4" class="box"/><text x="665" y="451" class="name">Sistema de reservas</text><text x="665" y="482" class="type">«sistema lógico»</text>
+  <rect x="510" y="145" width="310" height="105" rx="4" class="box"/><text x="665" y="188" class="name">Gestión de disponibilidad</text><text x="665" y="218" class="type">«servicio lógico»</text>
+  <rect x="1080" y="300" width="285" height="105" rx="4" class="box"/><text x="1222" y="343" class="name">Simulación de IA</text><text x="1222" y="373" class="type">«servicio opcional»</text>
+  <path d="M520 745 C520 719 590 708 680 708 C770 708 840 719 840 745 V820 C840 846 770 857 680 857 C590 857 520 846 520 820 Z" class="entity"/><ellipse cx="680" cy="745" rx="160" ry="25" fill="#eef7f2" stroke="#39735b" stroke-width="2.2"/><text x="680" y="786" class="name">Registro de reservas</text><text x="680" y="815" class="type">«entidad persistente»</text>
+
+  <path d="M185 475 H510" class="connection"/><path d="M665 250 V405" class="connection"/><path d="M820 438 L1080 370" class="connection"/><path d="M680 520 V708" class="connection"/>
+
+  <path d="M195 452 H497" class="arrow"/><rect x="246" y="417" width="205" height="25" class="labelBg"/><text x="348" y="436" class="messageStrong">1. Iniciar una reserva</text>
+  <path d="M497 478 H195" class="arrow"/><rect x="226" y="486" width="240" height="25" class="labelBg"/><text x="346" y="505" class="message">1.3 Mostrar horarios disponibles</text>
+  <path d="M195 522 H497" class="arrow"/><rect x="231" y="531" width="230" height="25" class="labelBg"/><text x="346" y="550" class="messageStrong">2. Confirmar datos de reserva</text>
+  <path d="M497 570 H195" class="arrow"/><rect x="225" y="578" width="245" height="25" class="labelBg"/><text x="347" y="597" class="messageStrong">3. Informar solicitud pendiente</text>
+
+  <path d="M640 395 V260" class="arrow"/><rect x="355" y="304" width="268" height="25" class="labelBg"/><text x="489" y="323" class="message">1.1 Consultar fechas y horarios</text>
+  <path d="M690 260 V395" class="arrow"/><rect x="708" y="304" width="250" height="25" class="labelBg"/><text x="833" y="323" class="message">1.2 Entregar disponibilidad</text>
+  <path d="M735 395 V260" class="arrow"/><rect x="753" y="349" width="238" height="25" class="labelBg"/><text x="872" y="368" class="messageStrong">2.1 Verificar nuevamente</text>
+
+  <path d="M830 458 L1068 395" class="arrow"/><rect x="862" y="423" width="257" height="44" class="labelBg"/><text x="990" y="440" class="messageStrong">2.2 [opcional] Validar simulación</text><text x="990" y="460" class="message">y copiar imagen a la reserva</text>
+
+  <path d="M650 530 V697" class="arrow"/><rect x="378" y="603" width="252" height="25" class="labelBg"/><text x="504" y="622" class="messageStrong">2.3 Crear reserva pendiente</text>
+  <path d="M710 697 V530" class="arrow"/><rect x="730" y="646" width="235" height="25" class="labelBg"/><text x="847" y="665" class="message">2.4 Confirmar registro</text>
+
+  <rect x="150" y="920" width="1200" height="48" fill="#f3f5f7" stroke="#aab4be"/><text x="750" y="949" class="note">Los números indican el orden de la colaboración. La generación completa de la simulación de IA corresponde a otro caso de uso.</text>
+</svg>

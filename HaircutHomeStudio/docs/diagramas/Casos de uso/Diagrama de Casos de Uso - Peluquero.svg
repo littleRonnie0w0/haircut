@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1100" viewBox="0 0 1600 1100" role="img" aria-labelledby="title desc">
+<title id="title">Casos de uso del peluquero</title><desc id="desc">Administración de disponibilidad, solicitudes, agenda y reportes por el peluquero.</desc>
+<defs><marker id="a" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0 0L10 4L0 8Z" fill="#52606d"/></marker><style>.t{font:600 28px Arial;fill:#17202a}.s{font:16px Arial;fill:#52606d}.b{fill:#fbfcfd;stroke:#34495e;stroke-width:2}.u{fill:#fff;stroke:#34495e;stroke-width:2}.main{fill:#edf5fb}.opt{fill:#f4f1fa}.n{font:600 16px Arial;fill:#17202a;text-anchor:middle}.actor{stroke:#34495e;stroke-width:2;fill:none}.al{font:600 16px Arial;fill:#17202a;text-anchor:middle}.x{stroke:#34495e;stroke-width:2;fill:none}.d{stroke:#52606d;stroke-width:1.7;stroke-dasharray:7 6;fill:none;marker-end:url(#a)}.t2{font:italic 14px Arial;fill:#52606d;text-anchor:middle}</style></defs>
+<rect width="1600" height="1100" fill="white"/><text x="800" y="42" class="t" text-anchor="middle">Casos de uso — Operaciones del peluquero</text><text x="800" y="70" class="s" text-anchor="middle">Haircut Home Studio</text>
+<rect x="300" y="105" width="1000" height="920" class="b"/><text x="800" y="138" class="n">Sistema Haircut Home Studio</text>
+<circle cx="140" cy="470" r="20" class="actor"/><path d="M140 490V550M105 515H175M140 550L110 590M140 550L170 590" class="actor"/><text x="140" y="620" class="al">Peluquero</text>
+<circle cx="1450" cy="700" r="20" class="actor"/><path d="M1450 720V780M1415 745H1485M1450 780L1420 820M1450 780L1480 820" class="actor"/><text x="1450" y="850" class="al">Servidor SMTP</text>
+<ellipse cx="560" cy="270" rx="175" ry="50" class="u main"/><text x="560" y="276" class="n">Configurar disponibilidad</text>
+<ellipse cx="980" cy="200" rx="150" ry="44" class="u"/><text x="980" y="206" class="n">Definir días y horarios</text>
+<ellipse cx="980" cy="320" rx="150" ry="44" class="u"/><text x="980" y="326" class="n">Bloquear fechas</text>
+<ellipse cx="560" cy="500" rx="175" ry="50" class="u main"/><text x="560" y="506" class="n">Gestionar solicitudes</text>
+<ellipse cx="980" cy="465" rx="150" ry="44" class="u opt"/><text x="980" y="471" class="n">Confirmar reserva</text>
+<ellipse cx="980" cy="585" rx="150" ry="44" class="u opt"/><text x="980" y="591" class="n">Rechazar reserva</text>
+<ellipse cx="980" cy="705" rx="150" ry="44" class="u"/><text x="980" y="711" class="n">Notificar al cliente</text>
+<ellipse cx="560" cy="745" rx="175" ry="50" class="u main"/><text x="560" y="751" class="n">Gestionar agenda</text>
+<ellipse cx="980" cy="850" rx="150" ry="44" class="u"/><text x="980" y="856" class="n">Actualizar resultado</text>
+<ellipse cx="560" cy="920" rx="175" ry="50" class="u main"/><text x="560" y="926" class="n">Exportar reporte</text>
+<path d="M175 480L385 290" class="x"/><path d="M175 515L385 500" class="x"/><path d="M175 550L385 725" class="x"/><path d="M175 570L385 900" class="x"/><path d="M1130 705L1415 745" class="x"/>
+<path d="M735 260L830 215" class="d"/><text x="780" y="215" class="t2">«include»</text><path d="M735 285L830 310" class="d"/><text x="785" y="320" class="t2">«include»</text>
+<path d="M830 475L735 495" class="d"/><text x="785" y="465" class="t2">«extend»</text><path d="M830 575L725 525" class="d"/><text x="785" y="560" class="t2">«extend»</text><path d="M980 509V661" class="d"/><text x="1035" y="590" class="t2">«include»</text><path d="M1015 627L1010 662" class="d"/>
+<path d="M735 770L830 830" class="d"/><text x="785" y="825" class="t2">«include»</text>
+</svg>

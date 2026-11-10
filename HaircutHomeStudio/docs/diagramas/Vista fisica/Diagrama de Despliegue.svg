@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1150" viewBox="0 0 1800 1150" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama de despliegue de Haircut Home Studio</title>
+  <desc id="desc">Vista física con dispositivos cliente, servidor web y de aplicación Laravel, base de datos MySQL, almacenamiento, worker de cola, API Gemini y servidor de correo.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto"><path d="M0,0 L11,4.5 L0,9 Z" fill="#34495e"/></marker>
+    <style>
+      .title{font:600 30px Arial,sans-serif;fill:#17202a}.subtitle{font:17px Arial,sans-serif;fill:#52606d}
+      .node{fill:#fff;stroke:#34495e;stroke-width:2.2}.nodeTop{fill:#eaf0f5;stroke:#34495e;stroke-width:2.2}.externalTop{fill:#eeeafd}.dataTop{fill:#e9f5ee}
+      .artifact{fill:#f8fafc;stroke:#607d8b;stroke-width:1.7}.artifactAccent{fill:#f1eefb;stroke:#6750a4;stroke-width:1.7}.artifactData{fill:#f1f8f4;stroke:#39735b;stroke-width:1.7}
+      .nodeName{font:600 20px Arial,sans-serif;fill:#17202a;text-anchor:middle}.stereo{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}
+      .artifactName{font:600 17px Arial,sans-serif;fill:#17202a;text-anchor:middle}.detail{font:15px Arial,sans-serif;fill:#34495e;text-anchor:middle}
+      .connection{stroke:#34495e;stroke-width:2;fill:none;marker-end:url(#arrow)}.dashed{stroke-dasharray:7 6}.protocol{font:600 15px Arial,sans-serif;fill:#34495e;text-anchor:middle}.note{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}
+    </style>
+  </defs>
+  <rect width="1800" height="1150" fill="white"/>
+  <text x="900" y="44" class="title" text-anchor="middle">Diagrama de despliegue — Vista física</text>
+  <text x="900" y="74" class="subtitle" text-anchor="middle">Haircut Home Studio</text>
+
+  <!-- Dispositivo cliente -->
+  <g>
+    <path d="M80 145 L100 125 H430 V330 L410 350 H80 Z" class="node"/>
+    <path d="M80 145 L100 125 H430 L410 145 Z" class="nodeTop"/>
+    <path d="M410 145 L430 125 V330 L410 350 Z" class="nodeTop"/>
+    <text x="255" y="178" class="stereo">«device»</text><text x="255" y="205" class="nodeName">Dispositivo del cliente</text>
+    <rect x="135" y="235" width="240" height="70" rx="3" class="artifact"/>
+    <text x="255" y="264" class="artifactName">Navegador web</text><text x="255" y="288" class="detail">PC · tablet · smartphone</text>
+  </g>
+
+  <!-- Dispositivo personal -->
+  <g>
+    <path d="M1370 145 L1390 125 H1720 V330 L1700 350 H1370 Z" class="node"/>
+    <path d="M1370 145 L1390 125 H1720 L1700 145 Z" class="nodeTop"/>
+    <path d="M1700 145 L1720 125 V330 L1700 350 Z" class="nodeTop"/>
+    <text x="1545" y="178" class="stereo">«device»</text><text x="1545" y="205" class="nodeName">Dispositivo del personal</text>
+    <rect x="1425" y="235" width="240" height="70" rx="3" class="artifact"/>
+    <text x="1545" y="264" class="artifactName">Navegador web</text><text x="1545" y="288" class="detail">Administrador · peluquero</text>
+  </g>
+
+  <!-- Servidor de aplicación -->
+  <g>
+    <path d="M480 300 L505 275 H1280 V875 L1255 900 H480 Z" class="node"/>
+    <path d="M480 300 L505 275 H1280 L1255 300 Z" class="nodeTop"/>
+    <path d="M1255 300 L1280 275 V875 L1255 900 Z" class="nodeTop"/>
+    <text x="867" y="335" class="stereo">«execution environment»</text>
+    <text x="867" y="364" class="nodeName">Servidor web y de aplicación</text>
+
+    <rect x="545" y="410" width="300" height="105" rx="3" class="artifact"/>
+    <text x="695" y="441" class="stereo">«runtime»</text><text x="695" y="468" class="artifactName">Apache/Nginx + PHP 8.2</text>
+    <text x="695" y="492" class="detail">Recepción de solicitudes HTTPS</text>
+
+    <rect x="890" y="410" width="300" height="105" rx="3" class="artifact"/>
+    <text x="1040" y="441" class="stereo">«artifact»</text><text x="1040" y="468" class="artifactName">Aplicación Laravel 12</text>
+    <text x="1040" y="492" class="detail">Reservas · catálogo · administración</text>
+
+    <rect x="545" y="565" width="300" height="115" rx="3" class="artifactAccent"/>
+    <text x="695" y="596" class="stereo">«process»</text><text x="695" y="623" class="artifactName">Worker de cola y Scheduler</text>
+    <text x="695" y="647" class="detail">GenerateHairPreview · limpieza IA</text>
+
+    <rect x="890" y="565" width="300" height="115" rx="3" class="artifactData"/>
+    <text x="1040" y="596" class="stereo">«storage»</text><text x="1040" y="623" class="artifactName">Sistema de archivos</text>
+    <text x="1040" y="647" class="detail">Fotos públicas · imágenes IA privadas</text>
+
+    <rect x="665" y="745" width="410" height="82" rx="3" class="artifact"/>
+    <text x="870" y="777" class="artifactName">Frontend compilado</text>
+    <text x="870" y="803" class="detail">Blade · CSS · JavaScript (Vite)</text>
+  </g>
+
+  <!-- Base de datos -->
+  <g>
+    <path d="M70 760 L90 740 H390 V1025 L370 1045 H70 Z" class="node"/>
+    <path d="M70 760 L90 740 H390 L370 760 Z" class="nodeTop dataTop"/>
+    <path d="M370 760 L390 740 V1025 L370 1045 Z" class="nodeTop dataTop"/>
+    <text x="230" y="797" class="stereo">«database server»</text><text x="230" y="825" class="nodeName">Servidor de base de datos</text>
+    <rect x="115" y="870" width="230" height="110" rx="3" class="artifactData"/>
+    <text x="230" y="902" class="artifactName">MySQL / MariaDB</text>
+    <text x="230" y="928" class="detail">Usuarios · reservas · servicios</text><text x="230" y="951" class="detail">productos · configuración · IA</text>
+  </g>
+
+  <!-- Gemini -->
+  <g>
+    <path d="M1410 540 L1430 520 H1730 V755 L1710 775 H1410 Z" class="node"/>
+    <path d="M1410 540 L1430 520 H1730 L1710 540 Z" class="nodeTop externalTop"/>
+    <path d="M1710 540 L1730 520 V755 L1710 775 Z" class="nodeTop externalTop"/>
+    <text x="1570" y="577" class="stereo">«external service»</text><text x="1570" y="605" class="nodeName">Google Gemini API</text>
+    <rect x="1455" y="650" width="230" height="70" rx="3" class="artifactAccent"/>
+    <text x="1570" y="680" class="artifactName">Generación de imagen</text><text x="1570" y="704" class="detail">Edición de estilo capilar</text>
+  </g>
+
+  <!-- Correo -->
+  <g>
+    <path d="M1410 855 L1430 835 H1730 V1030 L1710 1050 H1410 Z" class="node"/>
+    <path d="M1410 855 L1430 835 H1730 L1710 855 Z" class="nodeTop externalTop"/>
+    <path d="M1710 855 L1730 835 V1030 L1710 1050 Z" class="nodeTop externalTop"/>
+    <text x="1570" y="892" class="stereo">«external service»</text><text x="1570" y="920" class="nodeName">Servidor de correo</text>
+    <rect x="1460" y="955" width="220" height="55" rx="3" class="artifactAccent"/>
+    <text x="1570" y="988" class="artifactName">Servicio SMTP</text>
+  </g>
+
+  <!-- Conexiones -->
+  <path d="M410 275 C450 275 465 330 505 390" class="connection"/>
+  <text x="448" y="300" class="protocol">HTTPS</text>
+  <path d="M1370 275 C1325 275 1305 330 1255 390" class="connection"/>
+  <text x="1315" y="300" class="protocol">HTTPS</text>
+
+  <path d="M480 820 H400" class="connection"/>
+  <text x="438" y="804" class="protocol">SQL/TCP</text>
+
+  <path d="M1280 615 H1398" class="connection dashed"/>
+  <text x="1340" y="597" class="protocol">HTTPS/JSON</text>
+
+  <path d="M1280 810 C1345 825 1355 920 1398 935" class="connection dashed"/>
+  <text x="1344" y="858" class="protocol">SMTP/TLS</text>
+
+  <text x="900" y="1110" class="note">Despliegue lógico independiente del proveedor: el servidor de aplicación y la base de datos pueden alojarse en máquinas separadas o en un mismo host según el ambiente.</text>
+</svg>

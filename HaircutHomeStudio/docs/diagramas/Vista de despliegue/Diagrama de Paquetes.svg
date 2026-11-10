@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1850" height="1320" viewBox="0 0 1850 1320" role="img" aria-labelledby="title desc">
+  <title id="title">Diagrama de paquetes de la vista de despliegue de Haircut Home Studio</title>
+  <desc id="desc">Vista de desarrollo con los paquetes Resources, Routes, App, Database, Config, Storage e Integraciones externas, incluyendo sus dependencias.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="9" refX="10" refY="4.5" orient="auto"><path d="M0,0 L11,4.5 L0,9 Z" fill="#52606d"/></marker>
+    <style>
+      .title{font:600 30px Arial,sans-serif;fill:#17202a}.subtitle{font:17px Arial,sans-serif;fill:#52606d}
+      .pkg{fill:#fff;stroke:#34495e;stroke-width:2.2}.tab{fill:#eaf0f5;stroke:#34495e;stroke-width:2.2}.domainTab{fill:#e9f5ee}.infraTab{fill:#eeeafd}
+      .inner{fill:#f8fafc;stroke:#7b8794;stroke-width:1.6}.innerBlue{fill:#eef5fa}.innerGreen{fill:#f0f8f3}.innerPurple{fill:#f4f1fa}
+      .pkgName{font:600 20px Arial,sans-serif;fill:#17202a;text-anchor:middle}.innerName{font:600 17px Arial,sans-serif;fill:#17202a;text-anchor:middle}
+      .item{font:15px Consolas,'Courier New',monospace;fill:#34495e}.stereo{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}
+      .dependency{stroke:#52606d;stroke-width:1.9;stroke-dasharray:7 6;fill:none;marker-end:url(#arrow)}.depLabel{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}.labelBg{fill:white;opacity:.96}
+      .note{font:italic 14px Arial,sans-serif;fill:#52606d;text-anchor:middle}
+    </style>
+  </defs>
+  <rect width="1850" height="1320" fill="white"/>
+  <text x="925" y="43" class="title" text-anchor="middle">Diagrama de paquetes — Vista de despliegue</text>
+  <text x="925" y="73" class="subtitle" text-anchor="middle">Haircut Home Studio · Laravel 12</text>
+
+  <!-- Resources -->
+  <g>
+    <rect x="65" y="150" width="430" height="400" class="pkg"/><rect x="65" y="125" width="180" height="50" class="tab"/>
+    <text x="155" y="157" class="pkgName">resources</text>
+    <rect x="95" y="205" width="370" height="145" rx="3" class="inner innerBlue"/>
+    <text x="280" y="235" class="innerName">views</text><text x="115" y="268" class="item">+ layouts/</text><text x="115" y="294" class="item">+ reservas/ · ai/ · admin/</text><text x="115" y="320" class="item">+ auth/ · productos/</text>
+    <rect x="95" y="385" width="170" height="110" rx="3" class="inner"/><text x="180" y="416" class="innerName">js</text><text x="115" y="451" class="item">+ app.js</text><text x="115" y="477" class="item">+ bootstrap.js</text>
+    <rect x="295" y="385" width="170" height="110" rx="3" class="inner"/><text x="380" y="416" class="innerName">css</text><text x="315" y="451" class="item">+ app.css</text>
+  </g>
+
+  <!-- Routes -->
+  <g>
+    <rect x="650" y="150" width="320" height="225" class="pkg"/><rect x="650" y="125" width="150" height="50" class="tab"/>
+    <text x="725" y="157" class="pkgName">routes</text>
+    <text x="680" y="225" class="item">+ web.php</text><text x="680" y="260" class="item">+ console.php</text>
+    <text x="810" y="315" class="stereo">Define rutas HTTP, grupos</text><text x="810" y="338" class="stereo">de roles y comandos</text>
+  </g>
+
+  <!-- Config -->
+  <g>
+    <rect x="1390" y="150" width="370" height="280" class="pkg"/><rect x="1390" y="125" width="150" height="50" class="tab infraTab"/>
+    <text x="1465" y="157" class="pkgName">config</text>
+    <text x="1420" y="220" class="item">+ ai.php</text><text x="1420" y="251" class="item">+ auth.php</text>
+    <text x="1420" y="282" class="item">+ database.php</text><text x="1420" y="313" class="item">+ filesystems.php</text>
+    <text x="1420" y="344" class="item">+ mail.php · queue.php</text>
+    <text x="1575" y="394" class="stereo">Configuración del entorno</text>
+  </g>
+
+  <!-- App -->
+  <g>
+    <rect x="540" y="485" width="760" height="700" class="pkg"/><rect x="540" y="460" width="140" height="50" class="tab domainTab"/>
+    <text x="610" y="492" class="pkgName">app</text>
+
+    <rect x="580" y="545" width="320" height="220" rx="3" class="inner innerBlue"/>
+    <text x="740" y="578" class="innerName">Http / Controllers</text>
+    <text x="603" y="613" class="item">+ AuthController</text><text x="603" y="642" class="item">+ ReservationController</text>
+    <text x="603" y="671" class="item">+ AiStudioController</text><text x="603" y="700" class="item">+ Admin/*Controller</text>
+    <text x="603" y="729" class="item">+ Middleware/EnsureRole</text>
+
+    <rect x="940" y="545" width="320" height="260" rx="3" class="inner innerGreen"/>
+    <text x="1100" y="578" class="innerName">Services</text>
+    <text x="963" y="613" class="item">+ AvailabilityService</text><text x="963" y="642" class="item">+ ReservationWorkflowService</text>
+    <text x="963" y="671" class="item">+ AiQuotaService</text><text x="963" y="700" class="item">+ AiPromptService</text>
+    <text x="963" y="729" class="item">+ GeminiImageProvider</text><text x="963" y="758" class="item">+ PhotoSanitizer</text>
+
+    <rect x="580" y="835" width="320" height="280" rx="3" class="inner innerGreen"/>
+    <text x="740" y="868" class="innerName">Models</text>
+    <text x="603" y="903" class="item">+ User · Reserva</text><text x="603" y="932" class="item">+ Servicio · Categoria</text>
+    <text x="603" y="961" class="item">+ Producto · AiGeneration</text><text x="603" y="990" class="item">+ Configuracion</text>
+    <text x="603" y="1019" class="item">+ DiaOff · MesVisible</text>
+    <text x="740" y="1075" class="stereo">Entidades y relaciones Eloquent</text>
+
+    <rect x="940" y="845" width="320" height="120" rx="3" class="inner innerPurple"/>
+    <text x="1100" y="878" class="innerName">Jobs</text><text x="963" y="916" class="item">+ GenerateHairPreview</text>
+
+    <rect x="940" y="995" width="320" height="120" rx="3" class="inner innerPurple"/>
+    <text x="1100" y="1028" class="innerName">Contracts / Data / Support</text>
+    <text x="963" y="1066" class="item">+ AiImageProvider</text><text x="963" y="1095" class="item">+ AiImageResult · SimplePdf</text>
+  </g>
+
+  <!-- Database -->
+  <g>
+    <rect x="65" y="760" width="380" height="315" class="pkg"/><rect x="65" y="735" width="180" height="50" class="tab infraTab"/>
+    <text x="155" y="767" class="pkgName">database</text>
+    <rect x="100" y="825" width="310" height="105" rx="3" class="inner innerPurple"/>
+    <text x="255" y="857" class="innerName">migrations</text><text x="255" y="888" class="stereo">Estructura y relaciones</text><text x="255" y="910" class="stereo">de las tablas</text>
+    <rect x="100" y="960" width="310" height="80" rx="3" class="inner innerPurple"/>
+    <text x="255" y="992" class="innerName">seeders</text><text x="255" y="1018" class="stereo">Datos iniciales</text>
+  </g>
+
+  <!-- Storage -->
+  <g>
+    <rect x="1390" y="550" width="370" height="300" class="pkg"/><rect x="1390" y="525" width="175" height="50" class="tab infraTab"/>
+    <text x="1477" y="557" class="pkgName">storage</text>
+    <rect x="1425" y="620" width="300" height="90" rx="3" class="inner innerPurple"/>
+    <text x="1575" y="652" class="innerName">app/public/fotos</text><text x="1575" y="680" class="stereo">Referencias de reservas</text>
+    <rect x="1425" y="740" width="300" height="75" rx="3" class="inner innerPurple"/>
+    <text x="1575" y="772" class="innerName">app/private/ai</text><text x="1575" y="798" class="stereo">Originales y resultados IA</text>
+  </g>
+
+  <!-- Servicios externos -->
+  <g>
+    <rect x="1390" y="990" width="370" height="200" class="pkg"/><rect x="1390" y="965" width="250" height="50" class="tab infraTab"/>
+    <text x="1515" y="997" class="pkgName">integraciones externas</text>
+    <text x="1425" y="1065" class="item">+ Google Gemini API</text><text x="1425" y="1102" class="item">+ Servidor SMTP</text>
+    <text x="1425" y="1139" class="item">+ MySQL / MariaDB</text>
+  </g>
+
+  <!-- Dependencias entre paquetes -->
+  <path d="M495 285 H638" class="dependency"/><rect x="520" y="262" width="95" height="22" class="labelBg"/><text x="568" y="279" class="depLabel">navega</text>
+  <path d="M810 375 V448 H740 V535" class="dependency"/><rect x="750" y="410" width="125" height="22" class="labelBg"/><text x="812" y="427" class="depLabel">despacha a</text>
+  <path d="M900 655 H928" class="dependency"/><text x="914" y="642" class="depLabel">usa</text>
+  <path d="M740 765 V823" class="dependency"/><text x="770" y="801" class="depLabel">consulta</text>
+  <path d="M1050 805 V833 H880 V845" class="dependency"/><text x="970" y="827" class="depLabel">usa</text>
+  <path d="M1100 845 V817" class="dependency"/><text x="1145" y="835" class="depLabel">ejecuta</text>
+  <path d="M580 980 H457" class="dependency"/><rect x="478" y="957" width="80" height="22" class="labelBg"/><text x="518" y="974" class="depLabel">Eloquent</text>
+  <path d="M1300 700 H1378" class="dependency"/><text x="1339" y="687" class="depLabel">archiva</text>
+  <path d="M1260 610 C1320 610 1325 300 1378 300" class="dependency"/><text x="1328" y="455" class="depLabel">configura</text>
+  <path d="M1260 1060 H1378" class="dependency"/><text x="1319" y="1047" class="depLabel">integra</text>
+
+  <text x="925" y="1275" class="note">Las flechas discontinuas representan dependencias de código entre paquetes; no representan conexiones físicas de red.</text>
+</svg>
