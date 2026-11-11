@@ -92,7 +92,7 @@ Las pruebas automatizadas continúan usando SQLite en memoria, configurado en `p
 | Administrador | `admin` o `admin@admin.cl` | `admin123` |
 | Admin de pruebas IA | `admin.imagen@haircut.cl` | `ImagenTest2026!` |
 | Peluquero | `ricardo` o `ricardo@me.com` | `kako123` |
-| Cliente | `ana` o `ana@haircut.cl` | `ana123` |
+| Cliente | `garrido.rosa2004@gmail.com` | `Rosa2004!` |
 
 Los hashes bcrypt originales se conservaron, por lo que estas credenciales siguen siendo compatibles.
 

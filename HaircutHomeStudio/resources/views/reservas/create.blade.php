@@ -60,6 +60,11 @@
             Elige fecha y hora para continuar.
         </div>
     @endif
+    @if(request()->boolean('sugerencia') && ! $aiGeneration)
+        <div class="book-suggest" role="status">
+            Repetimos el servicio de tu reserva anterior. Elige un <strong>día y lugar distintos</strong> para continuar.
+        </div>
+    @endif
 
     <ol class="book-progress" aria-label="Progreso de reserva">
         @foreach($steps as $key => $step)
@@ -217,4 +222,57 @@
         </section>
     </form>
 </section>
+
+@if($reservaAnterior)
+@php
+    $servicioAnterior = $reservaAnterior->servicio;
+    $fechaAnterior = $reservaAnterior->fecha?->format('d/m/Y') ?? '—';
+    $lugarAnterior = \App\Support\Format::lugar($reservaAnterior->lugar);
+    $aceptarUrl = route('reservas.create', ['repetir' => 1]);
+@endphp
+<style>
+.suggest-dialog { overflow: hidden; padding-top: 0; text-align: center; }
+.suggest-dialog-bar { height: 14px; margin: 0 -22px 16px; background: var(--header); }
+.suggest-dialog-meta { margin: 0 0 18px; padding: 12px 14px; border-radius: 14px; background: var(--sand); text-align: left; }
+.suggest-dialog-meta p { margin: 0 0 8px; color: var(--ink); font-size: .92rem; line-height: 1.4; }
+.suggest-dialog-meta p:last-child { margin-bottom: 0; }
+.suggest-dialog-meta strong { color: var(--header); }
+.suggest-dialog .confirm-modal-actions { justify-content: center; }
+.suggest-dialog .confirm-modal-actions .btn { min-width: 120px; }
+</style>
+<div id="suggest-modal" class="confirm-modal">
+    <div class="confirm-modal-backdrop" data-suggest-dismiss></div>
+    <div class="confirm-modal-dialog suggest-dialog" role="dialog" aria-modal="true" aria-labelledby="suggest-modal-title">
+        <div class="suggest-dialog-bar" aria-hidden="true"></div>
+        <h2 id="suggest-modal-title" class="confirm-modal-title">¿Repetir tu reserva?</h2>
+        <p class="confirm-modal-message">Puedes volver a pedir el mismo servicio. El día y el lugar los eliges de nuevo.</p>
+        <div class="suggest-dialog-meta">
+            <p><strong>Servicio:</strong> {{ $servicioAnterior?->nombre ?? 'Servicio anterior' }}</p>
+            <p><strong>Última visita:</strong> {{ $fechaAnterior }} · {{ $lugarAnterior }}</p>
+        </div>
+        <div class="confirm-modal-actions">
+            <button type="button" class="btn btn-secondary" data-suggest-dismiss>Elegir otro</button>
+            <a href="{{ $aceptarUrl }}" class="btn btn-primary" data-no-loader>Usar esta</a>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('suggest-modal');
+    if (!modal || modal.dataset.bound === '1') return;
+    modal.dataset.bound = '1';
+    document.body.classList.add('confirm-open');
+    function close() {
+        modal.hidden = true;
+        document.body.classList.remove('confirm-open');
+    }
+    modal.querySelectorAll('[data-suggest-dismiss]').forEach(function (el) {
+        el.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !modal.hidden) close();
+    });
+});
+</script>
+@endif
 @endsection

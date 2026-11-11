@@ -123,7 +123,8 @@
 
             <div class="ai-photo-actions is-gallery" data-ai-photo-actions-gallery hidden>
                 <button type="button" class="btn btn-secondary ai-photo-action" data-ai-photo-pick="camera" @disabled(!$available || !$quota['allowed'])>Tomar foto</button>
-                <button type="button" class="btn btn-primary ai-photo-action" data-ai-photo-pick="gallery" @disabled(!$available || !$quota['allowed'])>Seleccionar</button>
+                <button type="button" class="btn btn-secondary ai-photo-action" data-ai-photo-pick="gallery" @disabled(!$available || !$quota['allowed'])>Seleccionar otra</button>
+                <button type="button" class="btn btn-primary ai-photo-action" data-ai-photo-keep @disabled(!$available || !$quota['allowed'])>Seleccionar esa</button>
             </div>
 
             <button type="button" class="ai-photo-change-link" data-ai-photo-change-link hidden>Cambiar fotografía</button>

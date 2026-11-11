@@ -58,6 +58,21 @@ class ReservationController extends Controller
 
         $aiGeneration = $this->selectedAiGeneration($request);
         $servicioDesdeAi = $this->servicioDesdeAi($aiGeneration);
+        $reservaAnterior = $this->reservaAnteriorSugerible($request);
+        $aceptarSugerencia = $request->boolean('repetir') && $reservaAnterior?->servicio;
+
+        if ($aceptarSugerencia && ! $request->filled('serv') && ! $aiGeneration) {
+            $servicioAnterior = $reservaAnterior->servicio;
+            $lugarAnterior = $reservaAnterior->lugar === 'domicilio' ? 'domicilio' : 'salon';
+
+            return redirect()->route('reservas.create', array_filter([
+                'cat' => $servicioAnterior->tipoServicio?->slug,
+                'serv' => $servicioAnterior->id,
+                'lugar' => $lugarAnterior === 'domicilio' ? 'salon' : 'domicilio',
+                'paso' => 'fecha',
+                'sugerencia' => 1,
+            ]));
+        }
 
         $categorias = TipoServicio::query()
             ->with(['servicios' => fn ($query) => $query->where('disponibilidad', true)->orderBy('id_servicio')])
@@ -123,6 +138,13 @@ class ReservationController extends Controller
                 $estados[$dia] = $this->availability->estadoDia($fechaDia, $servicio);
             }
         }
+        $mostrarSugerencia = $reservaAnterior !== null
+            && ! $aiGeneration
+            && ! $request->boolean('sugerencia')
+            && ! $request->boolean('omitir_sugerencia')
+            && ! $request->filled('serv')
+            && ! $request->filled('paso');
+
         return view('reservas.create', [
             'categorias' => $categorias,
             'categoria' => $categoria,
@@ -139,6 +161,7 @@ class ReservationController extends Controller
             'estados' => $estados,
             'mesesVisibles' => $this->availability->mesesVisiblesCliente(),
             'aiGeneration' => $aiGeneration,
+            'reservaAnterior' => $mostrarSugerencia ? $reservaAnterior : null,
         ]);
     }
 
@@ -318,6 +341,25 @@ class ReservationController extends Controller
         return $generation?->output_path && Storage::disk('local')->exists($generation->output_path)
             ? $generation
             : null;
+    }
+
+    private function reservaAnteriorSugerible(Request $request): ?Reserva
+    {
+        $usuario = $request->user();
+        if (! $usuario?->esCliente() && ! $usuario?->esAdminImagen()) {
+            return null;
+        }
+
+        return Reserva::query()
+            ->with(['servicio.tipoServicio', 'tipoReserva', 'estadoReserva', 'detalleReserva'])
+            ->where('id_usuario', $usuario->id_usuario)
+            ->whereHas('estadoReserva', function ($query) {
+                $query->whereIn('estado_reserva', ['Realizada', 'Agendada', 'En aprovación']);
+            })
+            ->whereHas('servicio', fn ($query) => $query->where('disponibilidad', true))
+            ->orderByDesc('fecha')
+            ->orderByDesc('hora')
+            ->first();
     }
 
     private function servicioDesdeAi(?AiGeneration $generation): ?Servicio

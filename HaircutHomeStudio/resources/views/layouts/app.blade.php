@@ -115,9 +115,6 @@
 
 <main>
     <div class="container container-fluid">
-        @if(session('success'))
-            <div class="alert alert-ok" data-autohide="2500">{{ session('success') }}</div>
-        @endif
         @if(session('error'))
             <div class="alert alert-error">{{ session('error') }}</div>
         @endif
@@ -165,6 +162,55 @@
     </div>
     <div class="footer-bottom"><div class="container container-fluid"><p class="footer-copy">&copy; 2026 Haircut Home Studio</p></div></div>
 </footer>
+@if(session('success'))
+<style>
+.notice-dialog { overflow: hidden; padding-top: 0; text-align: center; }
+.notice-dialog-bar { height: 14px; margin: 0 -22px 16px; background: var(--header); }
+.notice-dialog-mark { display: flex; justify-content: center; margin: 2px 0 8px; }
+.notice-dialog-mark svg { display: block; }
+.notice-dialog .confirm-modal-title,
+.notice-dialog .confirm-modal-message { text-align: center; }
+.notice-dialog .confirm-modal-actions { justify-content: center; }
+.notice-dialog .confirm-modal-actions .btn { min-width: 132px; }
+</style>
+<div id="notice-modal" class="confirm-modal">
+    <div class="confirm-modal-backdrop" data-notice-dismiss></div>
+    <div class="confirm-modal-dialog notice-dialog" role="dialog" aria-modal="true" aria-labelledby="notice-modal-title">
+        <div class="notice-dialog-bar" aria-hidden="true"></div>
+        <div class="notice-dialog-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="68" height="68">
+                <circle cx="32" cy="32" r="27" fill="#EBE0E4" stroke="#5C293C" stroke-width="2.5"/>
+                <path d="M20 33.5 28.2 42 45 23.5" fill="none" stroke="#5C293C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2 id="notice-modal-title" class="confirm-modal-title">Listo</h2>
+        <p class="confirm-modal-message">{{ session('success') }}</p>
+        <div class="confirm-modal-actions">
+            <button type="button" class="btn btn-primary" data-notice-dismiss>Aceptar</button>
+        </div>
+    </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('notice-modal');
+    if (!modal || modal.dataset.bound === '1') return;
+    modal.dataset.bound = '1';
+    document.body.classList.add('confirm-open');
+    function close() {
+        modal.hidden = true;
+        document.body.classList.remove('confirm-open');
+    }
+    modal.querySelectorAll('[data-notice-dismiss]').forEach(function (el) {
+        el.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && !modal.hidden) close();
+    });
+    var button = modal.querySelector('[data-notice-dismiss].btn');
+    if (button) button.focus();
+});
+</script>
+@endif
 <div id="confirm-modal" class="confirm-modal" hidden>
     <div class="confirm-modal-backdrop" data-confirm-dismiss></div>
     <div class="confirm-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">

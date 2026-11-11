@@ -1122,6 +1122,41 @@ body.confirm-open {
   overflow: hidden;
 }
 
+.notice-dialog {
+  overflow: hidden;
+  padding-top: 0;
+  text-align: center;
+}
+
+.notice-dialog-bar {
+  height: 14px;
+  margin: 0 -22px 16px;
+  background: var(--header);
+}
+
+.notice-dialog-mark {
+  display: flex;
+  justify-content: center;
+  margin: 2px 0 8px;
+}
+
+.notice-dialog-mark svg {
+  display: block;
+}
+
+.notice-dialog .confirm-modal-title,
+.notice-dialog .confirm-modal-message {
+  text-align: center;
+}
+
+.notice-dialog .confirm-modal-actions {
+  justify-content: center;
+}
+
+.notice-dialog .confirm-modal-actions .btn {
+  min-width: 132px;
+}
+
 .home-wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -5559,7 +5594,8 @@ body.ai-page main > .container { max-width: 1180px; }
 .ai-section-heading > span { color: var(--ink-soft); font-size: .78rem; }
 .ai-photo-input { position: absolute; width: 1px !important; min-width: 0 !important; height: 1px; padding: 0 !important; border: 0 !important; opacity: 0; overflow: hidden; clip-path: inset(50%); }
 .ai-photo-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; width: 100%; }
-.ai-photo-actions.is-camera { grid-template-columns: 1fr; }
+.ai-photo-actions.is-camera,
+.ai-photo-actions.is-gallery { grid-template-columns: 1fr; }
 .ai-photo-actions[hidden], .ai-photo-preview[hidden], .ai-photo-change-link[hidden] { display: none !important; }
 .ai-photo-action { min-height: 48px; width: 100%; touch-action: manipulation; }
 .ai-photo-panel.is-preparing { opacity: .72; pointer-events: none; }

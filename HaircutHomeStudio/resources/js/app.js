@@ -670,10 +670,12 @@ function initAiStudio() {
 		});
 	});
 
-	document.querySelector('[data-ai-photo-keep]')?.addEventListener('click', () => {
-		if (!input?.files?.length) return;
-		photoKept = true;
-		setActionVisibility();
+	document.querySelectorAll('[data-ai-photo-keep]').forEach((button) => {
+		button.addEventListener('click', () => {
+			if (button.disabled || !input?.files?.length) return;
+			photoKept = true;
+			setActionVisibility();
+		});
 	});
 
 	changeLink?.addEventListener('click', () => {
@@ -1205,6 +1207,31 @@ function initConfirmModal() {
 	});
 }
 
+function initNoticeModal() {
+	const modal = document.getElementById('notice-modal');
+	if (!modal || modal.dataset.bound === '1') return;
+	modal.dataset.bound = '1';
+
+	const close = () => {
+		modal.hidden = true;
+		document.body.classList.remove('confirm-open');
+	};
+
+	document.body.classList.add('confirm-open');
+	modal.querySelector('[data-notice-dismiss].btn')?.focus();
+
+	modal.querySelectorAll('[data-notice-dismiss]').forEach((el) => {
+		el.addEventListener('click', close);
+	});
+
+	document.addEventListener('keydown', (event) => {
+		if (event.key === 'Escape' && !modal.hidden) {
+			event.preventDefault();
+			close();
+		}
+	});
+}
+
 initReveal();
 initNavigation();
 initLoader();
@@ -1218,3 +1245,4 @@ initAiStudio();
 initBookingWizard();
 initGalleryLightbox();
 initConfirmModal();
+initNoticeModal();
