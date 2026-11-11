@@ -1157,6 +1157,29 @@ body.confirm-open {
   min-width: 132px;
 }
 
+.notice-dialog-meta {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--sand);
+  text-align: left;
+}
+
+.notice-dialog-meta p {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: .92rem;
+  line-height: 1.4;
+}
+
+.notice-dialog-meta p:last-child {
+  margin-bottom: 0;
+}
+
+.notice-dialog-meta strong {
+  color: var(--header);
+}
+
 .home-wrap {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -5200,6 +5223,22 @@ a.review-card:hover {
   background: #f4e6ea;
   color: var(--accent);
   border-color: #e3cdd4;
+}
+
+.catalog-icon-btn.is-pause {
+  background: #fff7ef;
+  color: #8a4a28;
+  border-color: #efd5c0;
+}
+
+.catalog-icon-btn.is-play {
+  background: #eef6f0;
+  color: #24663f;
+  border-color: #c8e0d0;
+}
+
+.catalog-row.is-inactive {
+  opacity: 0.72;
 }
 
 .catalog-row-edit {

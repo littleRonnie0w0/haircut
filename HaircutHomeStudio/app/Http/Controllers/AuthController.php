@@ -41,9 +41,17 @@ class AuthController extends Controller
                 ->onlyInput('email');
         }
 
+        $usuario = Auth::user();
         $request->session()->regenerate();
 
-        $usuario = Auth::user();
+        if (! $usuario?->estaActiva()) {
+            $request->session()->forget('url.intended');
+
+            return redirect()
+                ->route('home')
+                ->with('success', 'Sesión iniciada. Tu cuenta está desactivada: solo puedes ver Inicio y Productos.');
+        }
+
         $destino = $this->inicioPara($usuario);
 
         // Staff siempre a su bienvenida (evita “intended” a rutas de otro rol).

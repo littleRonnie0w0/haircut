@@ -3,16 +3,26 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AiGeneration;
+use App\Models\DetalleReserva;
+use App\Models\Reserva;
 use App\Models\Rol;
 use App\Models\User;
+use App\Services\PasswordResetStore;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class UserController extends Controller
 {
+    public function __construct(
+        private readonly PasswordResetStore $passwordResets,
+    ) {}
+
     public function index(Request $request): View
     {
         $rolId = $request->integer('rol') ?: null;
@@ -40,26 +50,28 @@ class UserController extends Controller
             'email' => strtolower($datos['email']),
             'contrasenia' => $datos['password'],
             'id_rol' => $datos['id_rol'],
+            'activo' => true,
         ]);
 
         return back()->with('success', 'Persona creada.');
     }
 
-    public function update(Request $request, User $usuario): RedirectResponse
+    public function toggleActivo(Request $request, User $usuario): RedirectResponse
     {
-        $datos = $this->validar($request, $usuario);
-
-        $usuario->nombre_usuario = $datos['nombre_usuario'];
-        $usuario->email = strtolower($datos['email']);
-        $usuario->id_rol = $datos['id_rol'];
-
-        if (! empty($datos['password'])) {
-            $usuario->contrasenia = $datos['password'];
+        if ($request->user()?->is($usuario)) {
+            return back()->with('error', 'No puedes desactivar tu propia cuenta.');
         }
 
+        $usuario->activo = ! $usuario->estaActiva();
         $usuario->save();
 
-        return back()->with('success', 'Persona actualizada.');
+        if (! $usuario->activo) {
+            $this->passwordResets->forget((string) $usuario->email);
+
+            return back()->with('success', "Cuenta de {$usuario->nombre_usuario} desactivada. Solo podrá ver Inicio y Productos.");
+        }
+
+        return back()->with('success', "Cuenta de {$usuario->nombre_usuario} reactivada.");
     }
 
     public function destroy(Request $request, User $usuario): RedirectResponse
@@ -68,34 +80,56 @@ class UserController extends Controller
             return back()->with('error', 'No puedes eliminar tu propia cuenta.');
         }
 
-        if ($usuario->reservas()->exists()) {
-            return back()->with('error', 'No se puede eliminar: la persona tiene reservas asociadas.');
-        }
+        $nombre = (string) $usuario->nombre_usuario;
 
-        $usuario->delete();
+        DB::transaction(function () use ($usuario): void {
+            $reservas = Reserva::query()
+                ->where('id_usuario', $usuario->id_usuario)
+                ->get();
 
-        return back()->with('success', 'Persona eliminada.');
+            foreach ($reservas as $reserva) {
+                foreach ($reserva->rutasFoto() as $ruta) {
+                    Storage::disk('public')->delete($ruta);
+                }
+                if ($reserva->imagen_simulada) {
+                    Storage::disk('local')->delete($reserva->imagen_simulada);
+                }
+            }
+
+            $reservaIds = $reservas->pluck('id_reserva');
+            if ($reservaIds->isNotEmpty()) {
+                DetalleReserva::query()->whereIn('id_reserva', $reservaIds)->delete();
+                Reserva::query()->whereIn('id_reserva', $reservaIds)->delete();
+            }
+
+            DB::table('AI_GENERATIONS')
+                ->where('ip_hash', AiGeneration::ownerHash($usuario))
+                ->delete();
+
+            DB::table('HISTORIAL_MOD')->where('id_usuario', $usuario->id_usuario)->delete();
+            DB::table('sessions')->where('user_id', $usuario->id_usuario)->delete();
+            $this->passwordResets->forget((string) $usuario->email);
+
+            $usuario->delete();
+        });
+
+        return back()->with('success', "{$nombre} y toda su información fueron eliminados de forma permanente.");
     }
 
     /** @return array<string, mixed> */
-    private function validar(Request $request, ?User $usuario = null): array
+    private function validar(Request $request): array
     {
-        $edicion = $usuario !== null;
-        $request->merge([
-            'password' => $request->filled('password') ? $request->input('password') : null,
-        ]);
-
         return $request->validate([
             'nombre_usuario' => ['required', 'string', 'max:150'],
             'email' => [
                 'required',
                 'email',
                 'max:100',
-                Rule::unique('USUARIO', 'email')->ignore($usuario?->id_usuario, 'id_usuario'),
+                Rule::unique('USUARIO', 'email'),
             ],
             'id_rol' => ['required', 'integer', Rule::exists('ROL', 'id_rol')],
             'password' => [
-                $edicion ? 'nullable' : 'required',
+                'required',
                 'confirmed',
                 Password::min(6),
             ],

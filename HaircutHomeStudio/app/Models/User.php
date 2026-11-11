@@ -36,6 +36,7 @@ class User extends Authenticatable
         'contrasenia',
         'nombre_usuario',
         'id_rol',
+        'activo',
     ];
 
     /**
@@ -55,9 +56,14 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'contrasenia' => 'hashed'
+            'contrasenia' => 'hashed',
+            'activo' => 'boolean',
         ];
     }
+
+    protected $attributes = [
+        'activo' => true,
+    ];
 
     public function reservas(): HasMany
     {
@@ -96,7 +102,7 @@ class User extends Authenticatable
 
     public function esCliente(): bool
     {
-        return in_array($this->nombreRol(), ['cliente', 'cliadmin'], true);
+        return $this->nombreRol() === 'cliente';
     }
 
     public function esStaff(): bool
@@ -109,6 +115,11 @@ class User extends Authenticatable
         return strcasecmp((string) $this->email, 'admin.imagen@haircut.cl') === 0;
     }
 
+    public function estaActiva(): bool
+    {
+        return (bool) ($this->activo ?? true);
+    }
+
     public function puedeUsarSimulador(): bool
     {
         return $this->esCliente() || $this->esAdminImagen();
@@ -116,6 +127,10 @@ class User extends Authenticatable
 
     public function rutaInicio(): string
     {
+        if (! $this->estaActiva()) {
+            return route('home');
+        }
+
         return match (true) {
             $this->esAdmin(), $this->esPeluquero() => route('staff.welcome'),
             default => route('home'),
@@ -146,7 +161,7 @@ class User extends Authenticatable
             return true;
         }
 
-        if (in_array('cliente', $roles, true) && ($mio === 'cliadmin' || $this->esAdminImagen())) {
+        if (in_array('cliente', $roles, true) && $this->esAdminImagen()) {
             return true;
         }
 
@@ -160,6 +175,10 @@ class User extends Authenticatable
      */
     public function prefijosRutasPermitidas(): array
     {
+        if (! $this->estaActiva()) {
+            return ['/', '/productos'];
+        }
+
         if ($this->esAdmin()) {
             $prefijos = [
                 '/admin/servicios',

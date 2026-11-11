@@ -1161,6 +1161,7 @@ function initConfirmModal() {
 		lastFocus = document.activeElement;
 		titleEl.textContent = title || 'Confirmar';
 		messageEl.textContent = message;
+		okBtn.textContent = title || 'Confirmar';
 		modal.hidden = false;
 		document.body.classList.add('confirm-open');
 		okBtn.focus();

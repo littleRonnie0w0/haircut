@@ -20,8 +20,9 @@ class DatabaseSeeder extends Seeder
             ['id_rol' => 1, 'rol' => 'Admin'],
             ['id_rol' => 2, 'rol' => 'Peluquero'],
             ['id_rol' => 3, 'rol' => 'Cliente'],
-            ['id_rol' => 4, 'rol' => 'CliAdmin'],
         ], ['id_rol'], ['rol']);
+
+        DB::table('ROL')->where('rol', 'CliAdmin')->delete();
 
         $users = [
             [

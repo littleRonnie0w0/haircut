@@ -27,6 +27,18 @@ class PasswordResetStore
         $this->write($data);
     }
 
+    public function forget(string $email): void
+    {
+        $email = strtolower(trim($email));
+        $data = $this->all();
+        if (! isset($data[$email])) {
+            return;
+        }
+
+        unset($data[$email]);
+        $this->write($data);
+    }
+
     public function consume(string $email, string $tokenPlain): bool
     {
         $email = strtolower(trim($email));

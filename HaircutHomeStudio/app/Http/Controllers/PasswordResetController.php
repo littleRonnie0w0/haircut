@@ -35,38 +35,36 @@ class PasswordResetController extends Controller
         $email = strtolower(trim($datos['email']));
         $usuario = User::query()->where('email', $email)->first();
 
-        // Misma respuesta si el correo no existe (no filtrar cuentas).
-        if ($usuario) {
-            $token = Str::random(64);
-            $this->tokens->put($email, $token, 60);
-            $url = route('password.reset', ['token' => $token, 'email' => $email]);
-
-            $ok = $this->messaging->sendBrand(
-                $email,
-                'Restablecer contraseña — HairCut Home Studio',
-                "Hola {$usuario->nombre_usuario},",
-                [
-                    'Recibimos una solicitud para restablecer tu contraseña.',
-                    'El enlace es válido por 60 minutos. Si no fuiste tú, puedes ignorar este correo.',
-                ],
-                $url,
-                'Restablecer contraseña',
-                'Para más información visita nuestra página <a href="'.e(config('messaging.site_url')).'" style="color:#5C293C;">HairCut Home Studio</a>.',
-                ['tipo' => 'password_reset', 'usuario_id' => $usuario->id_usuario],
-            );
-
-            if (! $ok) {
-                return back()->with(
-                    'error',
-                    'No se pudo enviar el correo ahora. Revisa la configuración de Resend o inténtalo más tarde.',
-                );
-            }
+        if (! $usuario) {
+            return back()->withInput()->with('error', 'Su correo no se encuentra.');
         }
 
-        return back()->with(
-            'success',
-            'Si el correo está registrado, te enviamos un enlace para restablecer la contraseña.',
+        $token = Str::random(64);
+        $this->tokens->put($email, $token, 60);
+        $url = route('password.reset', ['token' => $token, 'email' => $email]);
+
+        $ok = $this->messaging->sendBrand(
+            $email,
+            'Restablecer contraseña — HairCut Home Studio',
+            "Hola {$usuario->nombre_usuario},",
+            [
+                'Recibimos una solicitud para restablecer tu contraseña.',
+                'El enlace es válido por 60 minutos. Si no fuiste tú, puedes ignorar este correo.',
+            ],
+            $url,
+            'Restablecer contraseña',
+            'Para más información visita nuestra página <a href="'.e(config('messaging.site_url')).'" style="color:#5C293C;">HairCut Home Studio</a>.',
+            ['tipo' => 'password_reset', 'usuario_id' => $usuario->id_usuario],
         );
+
+        if (! $ok) {
+            return back()->with(
+                'error',
+                'No se pudo enviar el correo ahora. Revisa la configuración de Resend o inténtalo más tarde.',
+            );
+        }
+
+        return back()->with('success', 'Correo enviado. Revisa tu bandeja para restablecer la contraseña.');
     }
 
     public function resetForm(Request $request, string $token): View|RedirectResponse
@@ -104,7 +102,7 @@ class PasswordResetController extends Controller
         $usuario = User::query()->where('email', $email)->first();
         if (! $usuario) {
             return redirect()->route('password.request')
-                ->with('error', 'No encontramos una cuenta con ese correo.');
+                ->with('error', 'Su correo no se encuentra.');
         }
 
         $usuario->contrasenia = $datos['password'];

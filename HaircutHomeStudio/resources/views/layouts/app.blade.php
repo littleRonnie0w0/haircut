@@ -12,6 +12,7 @@
     if ($isHome) $classes[] = 'user-motion';
     $usuario = auth()->user();
     $rolNombre = strtolower((string) ($usuario?->rol?->rol ?? ''));
+    $cuentaRestringida = (bool) ($usuario && ! $usuario->estaActiva());
     $homeRoute = $usuario ? $usuario->rutaInicio() : route('home');
     $backRoute = $homeRoute;
     $backAllowed = $usuario ? $usuario->prefijosRutasPermitidas() : ['/', '/productos', '/login', '/contrasena'];
@@ -52,8 +53,10 @@
             @guest
                 <a href="{{ route('login') }}" class="btn-nav btn-nav-outline">Iniciar sesión</a>
                 <a href="{{ route('login', ['modo' => 'registro']) }}" class="btn-nav btn-nav-fill">Registrarse</a>
-            @else
+            @elseif(! $cuentaRestringida)
                 <a href="{{ route('perfil.edit') }}" class="nav-user nav-pill" title="Editar mi información">{{ $usuario->nombre_usuario }}</a>
+            @else
+                <span class="nav-user nav-pill" title="Cuenta desactivada">{{ $usuario->nombre_usuario }}</span>
             @endguest
             <a href="{{ $backRoute }}" class="header-back" id="header-back" aria-label="Volver atrás" title="Volver atrás" data-role-home="{{ $backRoute }}" data-allowed-prefixes="{{ e(json_encode($backAllowed)) }}">
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.4-1.4L10.8 12l5.1-5.1z"/></svg>
@@ -75,7 +78,11 @@
                 </div>
             @else
                 <div class="side-nav-auth">
-                    <a href="{{ route('perfil.edit') }}" class="btn-nav btn-nav-outline {{ $page === 'perfil' ? 'is-current' : '' }}" title="Editar mi información">{{ $usuario->nombre_usuario }}</a>
+                    @if($cuentaRestringida)
+                        <span class="btn-nav btn-nav-outline" title="Cuenta desactivada">{{ $usuario->nombre_usuario }}</span>
+                    @else
+                        <a href="{{ route('perfil.edit') }}" class="btn-nav btn-nav-outline {{ $page === 'perfil' ? 'is-current' : '' }}" title="Editar mi información">{{ $usuario->nombre_usuario }}</a>
+                    @endif
                     <form method="post" action="{{ route('logout') }}" class="side-nav-logout-form">
                         @csrf
                         <button type="submit" class="btn-nav btn-nav-fill">Cerrar sesión</button>
@@ -83,7 +90,10 @@
                 </div>
             @endguest
 
-            @if($rolNombre === 'peluquero')
+            @if($cuentaRestringida)
+                <a href="{{ route('home') }}" class="nav-link {{ $page === 'inicio' ? 'is-current' : '' }}"><span class="nav-ico" aria-hidden="true">⌂</span> Inicio</a>
+                <a href="{{ route('productos.index') }}" class="nav-link {{ $page === 'productos' ? 'is-current' : '' }}"><span class="nav-ico" aria-hidden="true">◈</span> Productos</a>
+            @elseif($rolNombre === 'peluquero')
                 <a href="{{ route('peluquero.dashboard') }}" class="nav-link {{ $page === 'panel' ? 'is-current' : '' }}"><span class="nav-ico" aria-hidden="true">▣</span> Estadísticas</a>
                 <a href="{{ route('peluquero.disponibilidad.edit') }}" class="nav-link {{ $page === 'disponibilidad' ? 'is-current' : '' }}"><span class="nav-ico" aria-hidden="true">▦</span> Disponibilidad</a>
                 <a href="{{ route('peluquero.solicitudes.index') }}" class="nav-link {{ $page === 'solicitudes' ? 'is-current' : '' }}"><span class="nav-ico" aria-hidden="true">✉</span> Solicitudes</a>
@@ -115,12 +125,6 @@
 
 <main>
     <div class="container container-fluid">
-        @if(session('error'))
-            <div class="alert alert-error">{{ session('error') }}</div>
-        @endif
-        @if($errors->any())
-            <div class="alert alert-error">{{ $errors->first() }}</div>
-        @endif
         @yield('content')
     </div>
 </main>
@@ -162,7 +166,22 @@
     </div>
     <div class="footer-bottom"><div class="container container-fluid"><p class="footer-copy">&copy; 2026 Haircut Home Studio</p></div></div>
 </footer>
-@if(session('success'))
+@php
+    $flashOk = session('success');
+    $flashError = session('error') ?: ($errors->any() ? $errors->first() : null);
+    $noticeMessage = $flashOk ?: $flashError;
+    $noticeKind = $flashOk ? 'ok' : ($noticeMessage ? 'error' : null);
+    $noticeTitle = session('notice_title');
+    if ($noticeMessage && ! $noticeTitle) {
+        $lower = mb_strtolower((string) $noticeMessage);
+        $noticeTitle = match (true) {
+            str_contains($lower, 'sesión iniciada') => 'Bienvenido',
+            str_contains($lower, 'correo enviado') => 'Correo enviado',
+            $noticeKind === 'ok' => 'Listo',
+            default => 'Aviso',
+        };
+    }
+@endphp
 <style>
 .notice-dialog { overflow: hidden; padding-top: 0; text-align: center; }
 .notice-dialog-bar { height: 14px; margin: 0 -22px 16px; background: var(--header); }
@@ -170,21 +189,34 @@
 .notice-dialog-mark svg { display: block; }
 .notice-dialog .confirm-modal-title,
 .notice-dialog .confirm-modal-message { text-align: center; }
-.notice-dialog .confirm-modal-actions { justify-content: center; }
+.notice-dialog .confirm-modal-actions { justify-content: center; flex-wrap: wrap; }
 .notice-dialog .confirm-modal-actions .btn { min-width: 132px; }
+.notice-dialog-meta { margin: 0 0 18px; padding: 12px 14px; border-radius: 14px; background: var(--sand); text-align: left; }
+.notice-dialog-meta p { margin: 0 0 8px; color: var(--ink); font-size: .92rem; line-height: 1.4; }
+.notice-dialog-meta p:last-child { margin-bottom: 0; }
+.notice-dialog-meta strong { color: var(--header); }
 </style>
-<div id="notice-modal" class="confirm-modal">
+@if($noticeMessage)
+<div id="notice-modal" class="confirm-modal" data-notice-kind="{{ $noticeKind }}">
     <div class="confirm-modal-backdrop" data-notice-dismiss></div>
     <div class="confirm-modal-dialog notice-dialog" role="dialog" aria-modal="true" aria-labelledby="notice-modal-title">
         <div class="notice-dialog-bar" aria-hidden="true"></div>
         <div class="notice-dialog-mark" aria-hidden="true">
-            <svg viewBox="0 0 64 64" width="68" height="68">
-                <circle cx="32" cy="32" r="27" fill="#EBE0E4" stroke="#5C293C" stroke-width="2.5"/>
-                <path d="M20 33.5 28.2 42 45 23.5" fill="none" stroke="#5C293C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            @if($noticeKind === 'ok')
+                <svg viewBox="0 0 64 64" width="68" height="68">
+                    <circle cx="32" cy="32" r="27" fill="#EBE0E4" stroke="#5C293C" stroke-width="2.5"/>
+                    <path d="M20 33.5 28.2 42 45 23.5" fill="none" stroke="#5C293C" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            @else
+                <svg viewBox="0 0 64 64" width="68" height="68">
+                    <circle cx="32" cy="32" r="27" fill="#EBE0E4" stroke="#5C293C" stroke-width="2.5"/>
+                    <path d="M32 18v22" fill="none" stroke="#5C293C" stroke-width="3.5" stroke-linecap="round"/>
+                    <circle cx="32" cy="48" r="2.6" fill="#5C293C"/>
+                </svg>
+            @endif
         </div>
-        <h2 id="notice-modal-title" class="confirm-modal-title">Listo</h2>
-        <p class="confirm-modal-message">{{ session('success') }}</p>
+        <h2 id="notice-modal-title" class="confirm-modal-title">{{ $noticeTitle }}</h2>
+        <p class="confirm-modal-message">{{ $noticeMessage }}</p>
         <div class="confirm-modal-actions">
             <button type="button" class="btn btn-primary" data-notice-dismiss>Aceptar</button>
         </div>
@@ -213,7 +245,15 @@ document.addEventListener('DOMContentLoaded', function () {
 @endif
 <div id="confirm-modal" class="confirm-modal" hidden>
     <div class="confirm-modal-backdrop" data-confirm-dismiss></div>
-    <div class="confirm-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+    <div class="confirm-modal-dialog notice-dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-modal-title">
+        <div class="notice-dialog-bar" aria-hidden="true"></div>
+        <div class="notice-dialog-mark" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="68" height="68">
+                <circle cx="32" cy="32" r="27" fill="#EBE0E4" stroke="#5C293C" stroke-width="2.5"/>
+                <path d="M32 18v22" fill="none" stroke="#5C293C" stroke-width="3.5" stroke-linecap="round"/>
+                <circle cx="32" cy="48" r="2.6" fill="#5C293C"/>
+            </svg>
+        </div>
         <h2 id="confirm-modal-title" class="confirm-modal-title">Confirmar</h2>
         <p id="confirm-modal-message" class="confirm-modal-message"></p>
         <div class="confirm-modal-actions">

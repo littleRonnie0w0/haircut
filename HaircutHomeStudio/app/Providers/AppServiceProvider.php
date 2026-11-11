@@ -33,8 +33,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        if (str_starts_with((string) config('app.url'), 'https://')) {
-            URL::forceScheme('https');
+        $appUrl = (string) config('app.url');
+        if (str_starts_with($appUrl, 'https://')) {
+            $appHost = parse_url($appUrl, PHP_URL_HOST);
+            $requestHost = request()->getHost();
+            if ($appHost && $requestHost && strcasecmp((string) $appHost, (string) $requestHost) === 0) {
+                URL::forceScheme('https');
+            }
         }
 
         RateLimiter::for('ai-generations', function (Request $request) {

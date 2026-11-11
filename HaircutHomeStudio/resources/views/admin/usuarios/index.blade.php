@@ -48,17 +48,15 @@
         <p class="hint">No hay personas con ese filtro. Usa “Agregar persona +” para crear la primera.</p>
     @else
         <div class="catalog-table usuarios-table" role="table" aria-label="Personas del sistema">
-            <div class="catalog-table-head" role="row"><span>Persona</span><span>Rol</span><span>Correo</span><span>Alta</span><span>Opciones</span></div>
+            <div class="catalog-table-head" role="row"><span>Persona</span><span>Rol</span><span>Correo</span><span>Estado</span><span>Opciones</span></div>
             @foreach($usuarios as $persona)
                 @php
                     $inicial = mb_strtoupper(mb_substr((string) $persona->nombre_usuario, 0, 1));
                     $rolNombre = $persona->rol?->rol ?? 'Sin rol';
-                    $fechaAlta = $persona->fecha_creacion
-                        ? \Carbon\CarbonImmutable::parse($persona->fecha_creacion)->format('d/m/Y')
-                        : '—';
+                    $activa = $persona->estaActiva();
                     $esYo = auth()->id() === $persona->id_usuario;
                 @endphp
-                <article class="catalog-row" role="row" data-filter-row="user-row" data-filter-text="{{ Str::lower($persona->nombre_usuario.' '.$persona->email.' '.$rolNombre) }}">
+                <article class="catalog-row {{ $activa ? '' : 'is-inactive' }}" role="row" data-filter-row="user-row" data-filter-text="{{ Str::lower($persona->nombre_usuario.' '.$persona->email.' '.$rolNombre.' '.($activa ? 'activa' : 'desactivada')) }}">
                     <div class="catalog-row-main">
                         <div class="catalog-row-product">
                             <div class="catalog-thumb" aria-hidden="true">{{ $inicial }}</div>
@@ -69,36 +67,23 @@
                         </div>
                         <div class="catalog-row-status" data-label="Rol"><span class="catalog-badge is-on">{{ $rolNombre }}</span></div>
                         <div class="catalog-row-price" data-label="Correo">{{ $persona->email }}</div>
-                        <div class="catalog-row-orden" data-label="Alta">{{ $fechaAlta }}</div>
+                        <div class="catalog-row-orden" data-label="Estado">
+                            <span class="catalog-badge {{ $activa ? 'is-on' : 'is-off' }}">{{ $activa ? 'Activa' : 'Desactivada' }}</span>
+                        </div>
                         <div class="catalog-row-actions">
-                            <button type="button" class="catalog-icon-btn is-edit" data-panel-toggle="user-edit-{{ $persona->id_usuario }}" aria-expanded="false" title="Editar">✎ <span>Editar</span></button>
                             @unless($esYo)
-                                <form method="post" action="{{ route('admin.usuarios.destroy', $persona) }}" data-confirm="¿Seguro que quiere eliminar a {{ $persona->nombre_usuario }}?" data-confirm-title="Eliminar">
+                                <form method="post" action="{{ route('admin.usuarios.toggle', $persona) }}" data-confirm="{{ $activa ? '¿Seguro que quiere desactivar a '.$persona->nombre_usuario.'? Solo podrá ver Inicio y Productos hasta que la reactive.' : '¿Seguro que quiere reactivar a '.$persona->nombre_usuario.'?' }}" data-confirm-title="{{ $activa ? 'Desactivar' : 'Reactivar' }}">
+                                    @csrf @method('PATCH')
+                                    <button type="submit" class="catalog-icon-btn {{ $activa ? 'is-pause' : 'is-play' }}" title="{{ $activa ? 'Desactivar' : 'Reactivar' }}">{{ $activa ? '⏸' : '▶' }} <span>{{ $activa ? 'Desactivar' : 'Reactivar' }}</span></button>
+                                </form>
+                                <form method="post" action="{{ route('admin.usuarios.destroy', $persona) }}" data-confirm="¿Seguro que quiere eliminar a {{ $persona->nombre_usuario }}? Se borrarán también todas sus reservas y datos. Esta acción es permanente." data-confirm-title="Eliminar">
                                     @csrf @method('DELETE')
                                     <button type="submit" class="catalog-icon-btn is-delete" title="Eliminar">× <span>Eliminar</span></button>
                                 </form>
+                            @else
+                                <span class="hint">Sin acciones</span>
                             @endunless
                         </div>
-                    </div>
-                    <div class="catalog-row-edit" id="user-edit-{{ $persona->id_usuario }}" hidden>
-                        <form method="post" action="{{ route('admin.usuarios.update', $persona) }}" class="catalog-add-form">
-                            @csrf @method('PUT')
-                            <div class="catalog-form-grid">
-                                <div class="field"><label>Nombre</label><input type="text" name="nombre_usuario" value="{{ old('nombre_usuario', $persona->nombre_usuario) }}" required maxlength="150"></div>
-                                <div class="field"><label>Correo</label><input type="email" name="email" value="{{ old('email', $persona->email) }}" required maxlength="100"></div>
-                                <div class="field">
-                                    <label>Rol</label>
-                                    <select name="id_rol" required>
-                                        @foreach($roles as $rol)
-                                            <option value="{{ $rol->id_rol }}" @selected((int) old('id_rol', $persona->id_rol) === (int) $rol->id_rol)>{{ $rol->rol }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="field"><label>Nueva contraseña</label><input type="password" name="password" minlength="6" autocomplete="new-password" placeholder="Déjala vacía para no cambiarla"></div>
-                                <div class="field"><label>Confirmar contraseña</label><input type="password" name="password_confirmation" minlength="6" autocomplete="new-password"></div>
-                            </div>
-                            <div class="actions"><button type="submit" class="btn btn-primary">Guardar cambios</button><button type="button" class="btn btn-secondary" data-panel-close="user-edit-{{ $persona->id_usuario }}">Cancelar</button></div>
-                        </form>
                     </div>
                 </article>
             @endforeach

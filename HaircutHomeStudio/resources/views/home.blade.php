@@ -6,8 +6,12 @@
         <h1 class="home-intro-title">Belleza, cosmética y cuidado personal</h1>
         <p class="home-intro-lead">En Haircut Home Studio hacemos <strong>cortes, lavado y brushing, color (canas, visos, mechas, balayage, baby lights y fantasía), masajes, botox, liso y peinados</strong>. ¿Qué esperas para tus consultas?</p>
         <div class="home-intro-actions">
-            <a href="{{ route('reservas.create') }}" class="btn btn-primary">Reservar hora</a>
-            <a href="{{ route('productos.index') }}" class="btn btn-secondary">Ver productos</a>
+            @if(auth()->check() && ! auth()->user()->estaActiva())
+                <a href="{{ route('productos.index') }}" class="btn btn-primary">Ver productos</a>
+            @else
+                <a href="{{ route('reservas.create') }}" class="btn btn-primary">Reservar hora</a>
+                <a href="{{ route('productos.index') }}" class="btn btn-secondary">Ver productos</a>
+            @endif
         </div>
     </section>
 
