@@ -2006,6 +2006,46 @@ body.confirm-open {
   color: var(--ink-soft);
 }
 
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field > input {
+  width: 100%;
+  padding-right: 48px;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft, #6b5a55);
+  cursor: pointer;
+}
+
+.password-toggle:hover,
+.password-toggle:focus-visible {
+  color: var(--accent, #5c293c);
+  background: rgba(92, 41, 60, 0.08);
+  outline: none;
+}
+
+.field .password-field > input {
+  margin: 0;
+}
+
 .auth-choices {
   display: flex;
   flex-direction: column;

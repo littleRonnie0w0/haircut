@@ -18,10 +18,15 @@ use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\StaffWelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
+Route::get('/', [HomeController::class, 'index'])
+    ->middleware('session.cache')
+    ->name('home');
 
-Route::middleware('guest')->group(function (): void {
+Route::get('/productos', [ProductController::class, 'index'])
+    ->middleware('session.cache')
+    ->name('productos.index');
+
+Route::middleware(['guest', 'session.cache'])->group(function (): void {
     Route::get('/login', [AuthController::class, 'show'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1')->name('login.store');
     Route::post('/registro', [AuthController::class, 'register'])->middleware('throttle:6,1')->name('register.store');
@@ -32,7 +37,9 @@ Route::middleware('guest')->group(function (): void {
     Route::post('/contrasena/restablecer', [PasswordResetController::class, 'update'])->middleware('throttle:5,1')->name('password.update');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])
+    ->middleware(['auth', 'session.cache'])
+    ->name('logout');
 
 Route::middleware('auth')->group(function (): void {
     Route::get('/mi-perfil', [ProfileController::class, 'edit'])->name('perfil.edit');

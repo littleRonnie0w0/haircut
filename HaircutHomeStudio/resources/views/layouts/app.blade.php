@@ -24,6 +24,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ $title }}</title>
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('img/logo.png') }}">
@@ -33,7 +34,7 @@
     <script>document.documentElement.classList.add('js-reveal');</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="{{ implode(' ', $classes) }}">
+<body class="{{ implode(' ', $classes) }}" data-auth="{{ $usuario ? 'user' : 'guest' }}">
 <div id="app-loader" class="app-loader" hidden>
     <div class="app-loader-spin" aria-hidden="true">
         @for ($i = 0; $i < 12; $i++)<span></span>@endfor
