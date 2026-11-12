@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\MessagingService;
+use App\Support\CorreoValido;
+use App\Support\NombrePersona;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
-use Illuminate\Validation\Rule;
 
 class AuthController extends Controller
 {
@@ -19,25 +21,30 @@ class AuthController extends Controller
     {
         return view('auth.login', [
             'registro' => $request->string('modo')->toString() === 'registro',
-            'nombreSugerido' => 'Clienta',
+            'nombreSugerido' => old('nombre', ''),
         ]);
     }
 
     public function login(Request $request): RedirectResponse
     {
-        // se almacena los datos del login
         $credenciales = $request->validate([
-            'email' => ['required', 'string'],
+            'email' => ['required', 'string', 'max:150'],
             'password' => ['required', 'string'],
+        ], [
+            'email.required' => 'Ingresa tu usuario o correo electrónico.',
+            'password.required' => 'Ingresa tu contraseña.',
         ]);
 
-        // Resuelve usuario/correo (ej. "rosa" → email real de la cuenta).
-        $credenciales['email'] = $this->resolverEmailLogin($credenciales['email']);
-
-        // Se realiza la autenticación del usuario.
-        if (! Auth::attempt($credenciales)) {
+        $email = $this->resolverEmailLogin($credenciales['email']);
+        if ($email === null) {
             return back()
-                ->withErrors(['email' => 'Usuario o contraseña incorrectos.'])
+                ->withErrors(['email' => 'No encontramos una cuenta con ese usuario o correo.'])
+                ->onlyInput('email');
+        }
+
+        if (! Auth::attempt(['email' => $email, 'password' => $credenciales['password']])) {
+            return back()
+                ->withErrors(['email' => 'La contraseña no es correcta. Inténtalo de nuevo.'])
                 ->onlyInput('email');
         }
 
@@ -54,7 +61,6 @@ class AuthController extends Controller
 
         $destino = $this->inicioPara($usuario);
 
-        // Staff siempre a su bienvenida (evita “intended” a rutas de otro rol).
         if ($usuario->esStaff()) {
             $request->session()->forget('url.intended');
 
@@ -66,21 +72,22 @@ class AuthController extends Controller
 
     public function register(Request $request): RedirectResponse
     {
-        // guardamos en un array los datos del registro.
         $datos = $request->validate([
-            'nombre' => ['nullable', 'string', 'max:120'],
-            'email' => ['required', 'email', 'max:150', Rule::unique('USUARIO', 'email')],
-            'password' => ['required', 'confirmed', Password::min(6)],
-        ], [
-            'email.unique' => 'Ese correo ya está registrado. Entra con tu contraseña.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
-        ]);
-
-        // Creamos el usuario en la bbdd.
+            'nombre' => NombrePersona::rules(required: true),
+            'email' => array_merge(CorreoValido::rules(required: true), [Rule::unique('USUARIO', 'email')]),
+            'password' => ['required', 'confirmed', Password::defaults()],
+        ], array_merge(NombrePersona::messages('nombre'), CorreoValido::messages('email'), [
+            'email.unique' => 'Ese correo ya está registrado. Inicia sesión con tu contraseña.',
+            'password.required' => 'Ingresa una contraseña.',
+            'password.confirmed' => 'Las contraseñas no coinciden. Vuelve a escribirlas para confirmarlas.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres, mayúsculas, minúsculas y un número.',
+            'password.mixed' => 'La contraseña debe incluir mayúsculas y minúsculas.',
+            'password.numbers' => 'La contraseña debe incluir al menos un número.',
+            'password.letters' => 'La contraseña debe incluir letras.',
+        ]));
 
         $usuario = User::create([
-            'nombre_usuario' => trim($datos['nombre'] ?? '') ?: 'Clienta',
+            'nombre_usuario' => trim($datos['nombre']),
             'email' => strtolower($datos['email']),
             'contrasenia' => $datos['password'],
             'id_rol' => 3,
@@ -101,7 +108,6 @@ class AuthController extends Controller
             ['tipo' => 'welcome', 'usuario_id' => $usuario->id_usuario],
         );
 
-        // dejamos su sesión iniciada.
         Auth::login($usuario);
         $request->session()->regenerate();
 
@@ -128,10 +134,14 @@ class AuthController extends Controller
      * Acepta correo completo o nombre de usuario.
      * Atajos de desarrollo: admin, ricardo.
      */
-    private function resolverEmailLogin(string $valor): string
+    private function resolverEmailLogin(string $valor): ?string
     {
         $valor = trim($valor);
-        $lower = strtolower($valor);
+        if ($valor === '') {
+            return null;
+        }
+
+        $lower = mb_strtolower($valor);
 
         if ($lower === 'admin') {
             return 'admin@admin.cl';
@@ -141,7 +151,12 @@ class AuthController extends Controller
         }
 
         if (str_contains($valor, '@')) {
-            return $lower;
+            $email = $lower;
+            if (! User::query()->where('email', $email)->exists()) {
+                return null;
+            }
+
+            return $email;
         }
 
         $porNombre = User::query()
@@ -157,7 +172,7 @@ class AuthController extends Controller
             return $candidato;
         }
 
-        return $candidato;
+        return null;
     }
 
     private function inicioPara(User $usuario): string

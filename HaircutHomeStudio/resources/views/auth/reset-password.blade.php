@@ -10,10 +10,10 @@
         <input type="hidden" name="token" value="{{ $token }}">
         <input type="hidden" name="email" value="{{ $email }}">
         <div class="auth-field">
-            <input type="password" name="password" required minlength="6" placeholder="Nueva contraseña" autocomplete="new-password">
+            <input type="password" name="password" required minlength="8" placeholder="Nueva contraseña" autocomplete="new-password">
         </div>
         <div class="auth-field">
-            <input type="password" name="password_confirmation" required minlength="6" placeholder="Confirmar contraseña" autocomplete="new-password">
+            <input type="password" name="password_confirmation" required minlength="8" placeholder="Confirmar contraseña" autocomplete="new-password">
         </div>
         <button type="submit" class="btn btn-primary auth-submit">Guardar contraseña</button>
         <p class="auth-foot"><a href="{{ route('login') }}">Volver a iniciar sesión</a></p>

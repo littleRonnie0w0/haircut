@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rules\Password;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Password::defaults(static fn () => Password::min(8)
+            ->mixedCase()
+            ->numbers());
+
         $appUrl = (string) config('app.url');
         if (str_starts_with($appUrl, 'https://')) {
             $appHost = parse_url($appUrl, PHP_URL_HOST);

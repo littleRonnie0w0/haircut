@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use App\Support\CorreoValido;
+use App\Support\NombrePersona;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
@@ -120,24 +122,23 @@ class UserController extends Controller
     private function validar(Request $request): array
     {
         return $request->validate([
-            'nombre_usuario' => ['required', 'string', 'max:150'],
-            'email' => [
-                'required',
-                'email',
-                'max:100',
-                Rule::unique('USUARIO', 'email'),
-            ],
+            'nombre_usuario' => NombrePersona::rules(required: true),
+            'email' => array_merge(CorreoValido::rules(required: true), [Rule::unique('USUARIO', 'email')]),
             'id_rol' => ['required', 'integer', Rule::exists('ROL', 'id_rol')],
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(6),
+                Password::defaults(),
             ],
-        ], [
+        ], array_merge(NombrePersona::messages('nombre_usuario'), CorreoValido::messages('email'), [
             'email.unique' => 'Ese correo ya está registrado.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'id_rol.required' => 'Selecciona un rol para la persona.',
+            'id_rol.exists' => 'El rol seleccionado no es válido.',
+            'password.confirmed' => 'Las contraseñas no coinciden. Vuelve a escribirlas para confirmarlas.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres, mayúsculas, minúsculas y un número.',
+            'password.mixed' => 'La contraseña debe incluir mayúsculas y minúsculas.',
+            'password.numbers' => 'La contraseña debe incluir al menos un número.',
             'password.required' => 'La contraseña es obligatoria.',
-        ]);
+        ]));
     }
 }

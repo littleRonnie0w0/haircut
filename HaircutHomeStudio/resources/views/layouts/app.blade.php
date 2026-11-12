@@ -34,7 +34,11 @@
     <script>document.documentElement.classList.add('js-reveal');</script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="{{ implode(' ', $classes) }}" data-auth="{{ $usuario ? 'user' : 'guest' }}">
+<body
+    class="{{ implode(' ', $classes) }}"
+    data-auth="{{ $usuario ? 'user' : 'guest' }}"
+    data-role="{{ $usuario ? ($cuentaRestringida ? 'restringido' : $rolNombre) : 'guest' }}"
+>
 <div id="app-loader" class="app-loader" hidden>
     <div class="app-loader-spin" aria-hidden="true">
         @for ($i = 0; $i < 12; $i++)<span></span>@endfor
@@ -175,9 +179,16 @@
     $noticeTitle = session('notice_title');
     if ($noticeMessage && ! $noticeTitle) {
         $lower = mb_strtolower((string) $noticeMessage);
+        $errorField = $errors->any() ? (string) ($errors->keys()[0] ?? '') : '';
         $noticeTitle = match (true) {
             str_contains($lower, 'sesión iniciada') => 'Bienvenido',
             str_contains($lower, 'correo enviado') => 'Correo enviado',
+            in_array($errorField, ['nombre', 'nombre_usuario'], true) => 'Nombre',
+            $errorField === 'password' || $errorField === 'password_confirmation' => 'Contraseña',
+            $errorField === 'email' => 'Cuenta',
+            str_contains($lower, 'contraseña') => 'Contraseña',
+            str_contains($lower, 'nombre') => 'Nombre',
+            str_contains($lower, 'correo') || str_contains($lower, 'cuenta') => 'Cuenta',
             $noticeKind === 'ok' => 'Listo',
             default => 'Aviso',
         };

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Services\MessagingService;
 use App\Services\PasswordResetStore;
+use App\Support\CorreoValido;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -26,17 +27,14 @@ class PasswordResetController extends Controller
     public function sendLink(Request $request): RedirectResponse
     {
         $datos = $request->validate([
-            'email' => ['required', 'email', 'max:150'],
-        ], [
-            'email.required' => 'Ingresa tu correo.',
-            'email.email' => 'El correo no es válido.',
-        ]);
+            'email' => CorreoValido::rules(required: true),
+        ], CorreoValido::messages('email'));
 
         $email = strtolower(trim($datos['email']));
         $usuario = User::query()->where('email', $email)->first();
 
         if (! $usuario) {
-            return back()->withInput()->with('error', 'Su correo no se encuentra.');
+            return back()->withInput()->with('error', 'No encontramos una cuenta con ese correo electrónico.');
         }
 
         $token = Str::random(64);
@@ -86,10 +84,13 @@ class PasswordResetController extends Controller
         $datos = $request->validate([
             'token' => ['required', 'string'],
             'email' => ['required', 'email', 'max:150'],
-            'password' => ['required', 'confirmed', Password::min(6)],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ], [
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'password.required' => 'Ingresa una contraseña nueva.',
+            'password.confirmed' => 'Las contraseñas no coinciden. Vuelve a escribirlas para confirmarlas.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres, mayúsculas, minúsculas y un número.',
+            'password.mixed' => 'La contraseña debe incluir mayúsculas y minúsculas.',
+            'password.numbers' => 'La contraseña debe incluir al menos un número.',
         ]);
 
         $email = strtolower(trim($datos['email']));
@@ -102,7 +103,7 @@ class PasswordResetController extends Controller
         $usuario = User::query()->where('email', $email)->first();
         if (! $usuario) {
             return redirect()->route('password.request')
-                ->with('error', 'Su correo no se encuentra.');
+                ->with('error', 'No encontramos una cuenta con ese correo electrónico.');
         }
 
         $usuario->contrasenia = $datos['password'];

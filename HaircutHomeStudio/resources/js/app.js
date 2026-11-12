@@ -1205,6 +1205,18 @@ function initNoticeModal() {
 function initRoleDefaultNavigation() {
 	const back = document.getElementById('header-back');
 	const roleHome = back?.getAttribute('data-role-home') || '/';
+	const role = (document.body.dataset.role || 'guest').toLowerCase();
+	const auth = document.body.dataset.auth || 'guest';
+	let allowedPrefixes = [];
+	try {
+		allowedPrefixes = JSON.parse(back?.getAttribute('data-allowed-prefixes') || '[]');
+	} catch {
+		allowedPrefixes = [];
+	}
+	if (!Array.isArray(allowedPrefixes) || allowedPrefixes.length === 0) {
+		allowedPrefixes = role === 'guest' ? ['/', '/productos', '/login', '/contrasena'] : ['/'];
+	}
+
 	let homePath = '/';
 	try {
 		homePath = new URL(roleHome, window.location.origin).pathname;
@@ -1218,10 +1230,33 @@ function initRoleDefaultNavigation() {
 		return path === homePath || path.startsWith(`${homePath}/`);
 	};
 
+	const isPathAllowed = (path) => allowedPrefixes.some((prefix) => {
+		if (prefix === '/') return path === '/';
+		return path === prefix || path.startsWith(`${prefix}/`);
+	});
+
 	const goRoleHome = (replace = false) => {
 		if (isAtRoleHome() && !window.location.search) return;
 		if (replace) window.location.replace(roleHome);
 		else window.location.assign(roleHome);
+	};
+
+	const isStaffRole = role === 'admin' || role === 'peluquero';
+	const pathOutsideRole = () => {
+		const path = window.location.pathname;
+		if (auth === 'user' && (path === '/login' || path.startsWith('/contrasena'))) return true;
+		if (auth === 'guest' && (
+			path === '/bienvenida'
+			|| path.startsWith('/admin')
+			|| path.startsWith('/mi-perfil')
+			|| path.startsWith('/mis-reservas')
+			|| path.startsWith('/reservar')
+			|| path.startsWith('/simulador')
+		)) return true;
+		// Admin/peluquero: no index público ni zonas de cliente/otro rol vía historial.
+		if (isStaffRole && !isPathAllowed(path)) return true;
+		if (auth === 'user' && role === 'cliente' && !isPathAllowed(path) && path.startsWith('/admin')) return true;
+		return false;
 	};
 
 	// Botón del menú: siempre a la página por defecto del rol.
@@ -1230,7 +1265,16 @@ function initRoleDefaultNavigation() {
 		goRoleHome(false);
 	});
 
-	// Varios "atrás" del navegador en poco tiempo → home del rol.
+	const enforceRoleBoundary = (fromBack = false) => {
+		if (!pathOutsideRole()) return false;
+		sessionStorage.removeItem('hhs_back_burst');
+		goRoleHome(true);
+		return true;
+	};
+
+	// Cualquier carga fuera de zona (p. ej. atrás del teléfono/navegador) → home del rol.
+	if (enforceRoleBoundary(true)) return;
+
 	const key = 'hhs_back_burst';
 	const nav = performance.getEntriesByType?.('navigation')?.[0];
 	const isBackNav = nav?.type === 'back_forward'
@@ -1246,21 +1290,10 @@ function initRoleDefaultNavigation() {
 		burst.t = now;
 		sessionStorage.setItem(key, JSON.stringify(burst));
 
-		const auth = document.body.dataset.auth;
-		const path = window.location.pathname;
-		const badForUser = auth === 'user' && (path === '/login' || path.startsWith('/contrasena'));
-		const badForGuest = auth === 'guest' && (
-			path === '/bienvenida'
-			|| path.startsWith('/admin')
-			|| path.startsWith('/mi-perfil')
-			|| path.startsWith('/mis-reservas')
-			|| path.startsWith('/reservar')
-			|| path.startsWith('/simulador')
-		);
-
-		if (burst.n >= 2 || badForUser || badForGuest) {
+		if (burst.n >= 2 || pathOutsideRole()) {
 			sessionStorage.removeItem(key);
 			goRoleHome(true);
+			return;
 		}
 	} else {
 		sessionStorage.removeItem(key);
@@ -1288,6 +1321,58 @@ function initSessionFreshness() {
 		syncCsrfTokens();
 	});
 	syncCsrfTokens();
+}
+
+function spanishValidityMessage(el) {
+	if (el.validity.valueMissing) {
+		if (el.type === 'email' || el.name === 'email') return 'Ingresa tu correo electrónico.';
+		if (el.type === 'password') return 'Ingresa tu contraseña.';
+		if (el.name === 'nombre' || el.name === 'nombre_usuario') return 'Ingresa tu nombre completo.';
+		return 'Completa este campo.';
+	}
+	if (el.validity.typeMismatch) {
+		if (el.type === 'email') return 'Ingresa un correo electrónico válido.';
+		return 'El formato no es válido.';
+	}
+	if (el.validity.tooShort) {
+		const min = el.minLength > 0 ? el.minLength : 8;
+		if (el.type === 'password') {
+			return `La contraseña debe tener al menos ${min} caracteres.`;
+		}
+		return `Este texto debe tener al menos ${min} caracteres.`;
+	}
+	if (el.validity.tooLong) {
+		return `Este texto no puede superar ${el.maxLength} caracteres.`;
+	}
+	if (el.validity.patternMismatch) {
+		return 'El formato no es válido. Revísalo e inténtalo de nuevo.';
+	}
+	if (el.validity.rangeUnderflow || el.validity.rangeOverflow) {
+		return 'El valor está fuera del rango permitido.';
+	}
+	if (el.validity.stepMismatch) {
+		return 'Ingresa un valor válido.';
+	}
+	return 'Revisa este campo.';
+}
+
+function initSpanishFormValidation() {
+	document.addEventListener('invalid', (event) => {
+		const el = event.target;
+		if (!(el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement)) {
+			return;
+		}
+		el.setCustomValidity(spanishValidityMessage(el));
+	}, true);
+
+	const clear = (event) => {
+		const el = event.target;
+		if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement || el instanceof HTMLSelectElement) {
+			el.setCustomValidity('');
+		}
+	};
+	document.addEventListener('input', clear, true);
+	document.addEventListener('change', clear, true);
 }
 
 function initPasswordToggles() {
@@ -1332,6 +1417,7 @@ initReveal();
 initNavigation();
 initLoader();
 initSessionFreshness();
+initSpanishFormValidation();
 initPasswordToggles();
 initCarousels();
 initPanelsAndFilters();

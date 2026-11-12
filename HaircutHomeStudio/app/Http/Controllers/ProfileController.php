@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\CorreoValido;
+use App\Support\NombrePersona;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -25,19 +27,19 @@ class ProfileController extends Controller
         ]);
 
         $datos = $request->validate([
-            'nombre_usuario' => ['required', 'string', 'max:150'],
-            'email' => [
-                'required',
-                'email',
-                'max:100',
-                Rule::unique('USUARIO', 'email')->ignore($usuario->id_usuario, 'id_usuario'),
-            ],
-            'password' => ['nullable', 'confirmed', Password::min(6)],
-        ], [
-            'email.unique' => 'Ese correo ya está registrado.',
-            'password.confirmed' => 'Las contraseñas no coinciden.',
-            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
-        ]);
+            'nombre_usuario' => NombrePersona::rules(required: true),
+            'email' => array_merge(
+                CorreoValido::rules(required: true),
+                [Rule::unique('USUARIO', 'email')->ignore($usuario->id_usuario, 'id_usuario')]
+            ),
+            'password' => ['nullable', 'confirmed', Password::defaults()],
+        ], array_merge(NombrePersona::messages('nombre_usuario'), CorreoValido::messages('email'), [
+            'email.unique' => 'Ese correo ya está registrado en otra cuenta.',
+            'password.confirmed' => 'Las contraseñas no coinciden. Vuelve a escribirlas para confirmarlas.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres, mayúsculas, minúsculas y un número.',
+            'password.mixed' => 'La contraseña debe incluir mayúsculas y minúsculas.',
+            'password.numbers' => 'La contraseña debe incluir al menos un número.',
+        ]));
 
         $usuario->nombre_usuario = $datos['nombre_usuario'];
         $usuario->email = strtolower($datos['email']);
