@@ -1214,7 +1214,9 @@ function initRoleDefaultNavigation() {
 		allowedPrefixes = [];
 	}
 	if (!Array.isArray(allowedPrefixes) || allowedPrefixes.length === 0) {
-		allowedPrefixes = role === 'guest' ? ['/', '/productos', '/login', '/contrasena'] : ['/'];
+		if (role === 'guest') allowedPrefixes = ['/', '/productos', '/login', '/contrasena'];
+		else if (role === 'admin' || role === 'peluquero') allowedPrefixes = ['/admin', '/bienvenida', '/mi-perfil'];
+		else allowedPrefixes = ['/', '/productos', '/reservar', '/mis-reservas', '/simulador', '/mi-perfil'];
 	}
 
 	let homePath = '/';
@@ -1253,9 +1255,11 @@ function initRoleDefaultNavigation() {
 			|| path.startsWith('/reservar')
 			|| path.startsWith('/simulador')
 		)) return true;
-		// Admin/peluquero: no index público ni zonas de cliente/otro rol vía historial.
-		if (isStaffRole && !isPathAllowed(path)) return true;
-		if (auth === 'user' && role === 'cliente' && !isPathAllowed(path) && path.startsWith('/admin')) return true;
+		// Solo zonas claramente ajenas (p. ej. index público vía historial).
+		if (isStaffRole && (path === '/' || path === '/productos' || path.startsWith('/productos/'))) {
+			return !isPathAllowed(path);
+		}
+		if (auth === 'user' && role === 'cliente' && path.startsWith('/admin')) return true;
 		return false;
 	};
 
@@ -1265,16 +1269,8 @@ function initRoleDefaultNavigation() {
 		goRoleHome(false);
 	});
 
-	const enforceRoleBoundary = (fromBack = false) => {
-		if (!pathOutsideRole()) return false;
-		sessionStorage.removeItem('hhs_back_burst');
-		goRoleHome(true);
-		return true;
-	};
-
-	// Cualquier carga fuera de zona (p. ej. atrás del teléfono/navegador) → home del rol.
-	if (enforceRoleBoundary(true)) return;
-
+	// Importante: NO redirigir en navegación normal (clicks del menú).
+	// Solo corregir al usar atrás/adelante del navegador o teléfono.
 	const key = 'hhs_back_burst';
 	const nav = performance.getEntriesByType?.('navigation')?.[0];
 	const isBackNav = nav?.type === 'back_forward'

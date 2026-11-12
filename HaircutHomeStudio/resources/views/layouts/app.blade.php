@@ -63,7 +63,7 @@
             @else
                 <span class="nav-user nav-pill" title="Cuenta desactivada">{{ $usuario->nombre_usuario }}</span>
             @endguest
-            <a href="{{ $backRoute }}" class="header-back" id="header-back" aria-label="Volver atrás" title="Volver atrás" data-role-home="{{ $backRoute }}" data-allowed-prefixes="{{ e(json_encode($backAllowed)) }}">
+            <a href="{{ $backRoute }}" class="header-back" id="header-back" aria-label="Volver atrás" title="Volver atrás" data-role-home="{{ $backRoute }}" data-allowed-prefixes='@json($backAllowed)'>
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M14.5 5.5 8 12l6.5 6.5 1.4-1.4L10.8 12l5.1-5.1z"/></svg>
             </a>
             <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="nav-acc" aria-label="Abrir menú">

@@ -182,14 +182,12 @@ class User extends Authenticatable
 
         if ($this->esAdmin()) {
             $prefijos = [
-                '/admin/servicios',
-                '/admin/catalogo',
-                '/admin/usuarios',
+                '/admin',
                 '/mi-perfil',
                 '/bienvenida',
             ];
             if ($this->esAdminImagen()) {
-                array_push($prefijos, '/simulador', '/reservar', '/mis-reservas');
+                array_push($prefijos, '/simulador', '/reservar', '/mis-reservas', '/productos', '/');
             }
 
             return $prefijos;
@@ -197,11 +195,7 @@ class User extends Authenticatable
 
         if ($this->esPeluquero()) {
             return [
-                '/admin/dashboard',
-                '/admin/disponibilidad',
-                '/admin/solicitudes',
-                '/admin/horas',
-                '/admin/reportes',
+                '/admin',
                 '/mi-perfil',
                 '/bienvenida',
             ];
