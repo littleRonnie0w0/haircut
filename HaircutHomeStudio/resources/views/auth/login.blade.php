@@ -20,12 +20,6 @@
             @csrf
             <div class="auth-field"><input type="text" name="email" required value="{{ old('email') }}" placeholder="Usuario o correo" autocomplete="username"></div>
             <div class="auth-field"><input type="password" name="password" required placeholder="Contraseña" autocomplete="current-password"></div>
-
-            <label class="auth-remember">
-                <input type="checkbox" name="remember" value="1" {{ old('remember') ? 'checked' : '' }}>
-                <span>Mantener sesión iniciada</span>
-            </label>
-
             <button type="submit" class="btn btn-primary auth-submit">Entrar</button>
 
             <div class="auth-links">
