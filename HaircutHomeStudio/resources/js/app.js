@@ -1306,7 +1306,8 @@ function initPasswordToggles() {
 			wrap.appendChild(input);
 		}
 
-		if (wrap.querySelector('.password-toggle')) return;
+		// Evita ojos duplicados si el script corre más de una vez.
+		wrap.querySelectorAll('.password-toggle').forEach((extra) => extra.remove());
 
 		const button = document.createElement('button');
 		button.type = 'button';

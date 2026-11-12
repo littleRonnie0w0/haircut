@@ -2016,6 +2016,16 @@ body.confirm-open {
   padding-right: 48px;
 }
 
+/* Oculta el ojo nativo del navegador (Edge/IE) para no duplicar el nuestro */
+.password-field > input::-ms-reveal,
+.password-field > input::-ms-clear,
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 .password-toggle {
   position: absolute;
   top: 50%;
@@ -2091,6 +2101,7 @@ body.confirm-open {
 .auth-remember {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   margin: 2px 0 4px;
   color: var(--ink);
