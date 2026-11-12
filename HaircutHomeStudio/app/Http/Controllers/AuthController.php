@@ -33,9 +33,10 @@ class AuthController extends Controller
 
         // Resuelve usuario/correo (ej. "rosa" → email real de la cuenta).
         $credenciales['email'] = $this->resolverEmailLogin($credenciales['email']);
+        $mantenerSesion = $request->boolean('remember');
 
         // Se realiza la autenticación del usuario.
-        if (! Auth::attempt($credenciales)) {
+        if (! Auth::attempt($credenciales, $mantenerSesion)) {
             return back()
                 ->withErrors(['email' => 'Usuario o contraseña incorrectos.'])
                 ->onlyInput('email');

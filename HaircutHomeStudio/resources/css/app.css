@@ -2088,6 +2088,48 @@ body.confirm-open {
   margin-top: 6px;
 }
 
+.auth-remember {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 2px 0 4px;
+  color: var(--ink);
+  font-size: 0.92rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-remember input {
+  width: 1.05rem;
+  height: 1.05rem;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.auth-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+.auth-links > a,
+.auth-signup a,
+.auth-foot a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.auth-signup {
+  margin: 0;
+  text-align: center;
+}
+
 .auth-foot {
   margin: 14px 0 0;
   text-align: center;

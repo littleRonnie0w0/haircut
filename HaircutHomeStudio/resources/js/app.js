@@ -1291,8 +1291,8 @@ function initSessionFreshness() {
 }
 
 function initPasswordToggles() {
-	const eyeOpen = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2.5A2.5 2.5 0 1 0 12 9a2.5 2.5 0 0 0 0 5z"/></svg>';
-	const eyeOff = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3.1 4.5 4.5 3.1 20.9 19.5 19.5 20.9l-2.4-2.4A12.6 12.6 0 0 1 12 19c-5 0-9.3-3.1-11-7a13.2 13.2 0 0 1 4.5-5.1L3.1 4.5zM12 7a5 5 0 0 1 4.9 4.1l-1.6-1.6A2.5 2.5 0 0 0 12 9a2.5 2.5 0 0 0-.9 4.8L9.5 12A5 5 0 0 1 12 7zm9.6 2.3A13 13 0 0 1 23 12c-1.7 3.9-6 7-11 7-.9 0-1.7-.1-2.5-.3l1.7-1.7c.3 0 .5.1.8.1a5 5 0 0 0 5-5c0-.3 0-.5-.1-.8l3.7-3.7z"/></svg>';
+	// Un solo ícono (el de por defecto). No se cambia al tipear ni al mostrar/ocultar.
+	const eyeIcon = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 5c-5 0-9.3 3.1-11 7 1.7 3.9 6 7 11 7s9.3-3.1 11-7c-1.7-3.9-6-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2.5A2.5 2.5 0 1 0 12 9a2.5 2.5 0 0 0 0 5z"/></svg>';
 
 	document.querySelectorAll('input[type="password"]').forEach((input) => {
 		if (input.dataset.passwordToggleBound === '1') return;
@@ -1313,14 +1313,13 @@ function initPasswordToggles() {
 		button.className = 'password-toggle';
 		button.setAttribute('aria-label', 'Mostrar contraseña');
 		button.setAttribute('aria-pressed', 'false');
-		button.innerHTML = eyeOpen;
+		button.innerHTML = eyeIcon;
 
 		button.addEventListener('click', () => {
 			const show = input.type === 'password';
 			input.type = show ? 'text' : 'password';
 			button.setAttribute('aria-pressed', show ? 'true' : 'false');
 			button.setAttribute('aria-label', show ? 'Ocultar contraseña' : 'Mostrar contraseña');
-			button.innerHTML = show ? eyeOff : eyeOpen;
 			input.focus({ preventScroll: true });
 		});
 
